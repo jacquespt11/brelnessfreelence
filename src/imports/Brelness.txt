@@ -1,0 +1,706 @@
+Spécifications Complètes - Plateforme SaaS Brelness
+🎯 Objectif Général
+Développer une application web SaaS multilocataire permettant la gestion de réservations de produits pour différents types de boutiques (vêtements, cosmétiques, électronique, etc.). La plateforme doit fonctionner en trois niveaux : Super Admin, Admin Boutique, et Client Visiteur.
+
+👑 PARTIE 1 : SUPER ADMINISTRATEUR
+1.1 Authentification & Sécurité
+Système de connexion sécurisé (JWT)
+
+Gestion des sessions utilisateur
+
+Récupération de mot de passe par email
+
+Authentification à deux facteurs (optionnel)
+
+1.2 Dashboard Principal
+Statistiques en temps réel :
+
+Nombre total de boutiques actives/inactives
+
+Nombre total de réservations
+
+Nombre de licences expirées
+
+Chiffre d'affaires (si applicable)
+
+Graphiques d'analytics avec Chart.js
+
+Tableau de bord personnalisé :
+
+Affichage des KPIs principaux
+
+Liste des activités récentes
+
+Alertes pour les licences proches de l'expiration
+
+Notifications en temps réel (WebSocket)
+
+1.3 Gestion des Boutiques
+Créer une nouvelle boutique :
+
+Nom, catégorie (vêtements, cosmétiques, électronique, etc.)
+
+Description et détails
+
+Logo et bannière (upload via Cloudinary/AWS S3)
+
+Sélection de l'administrateur responsable
+
+Informations de contact (adresse, téléphone, email)
+
+Réseaux sociaux (Facebook, Instagram, Twitter, TikTok)
+
+Modifier une boutique :
+
+Éditer tous les détails
+
+Changer d'administrateur
+
+Activer/désactiver la boutique
+
+Mettre à jour le logo et visuels
+
+Voir et filtrer les boutiques :
+
+Liste paginée avec recherche
+
+Filtrer par statut, catégorie, date de création
+
+Voir le responsable assigné
+
+1.4 Gestion des Administrateurs de Boutique
+Créer un admin :
+
+Assigner à une boutique spécifique
+
+Email unique
+
+Rôle défini (administrateur boutique)
+
+Modifier un admin :
+
+Changer l'email
+
+Réinitialiser le mot de passe
+
+Activer/désactiver le compte
+
+Voir la liste des admins avec boutique assignée
+
+1.5 Gestion des Licences
+Afficher l'état des licences :
+
+Date d'expiration
+
+Type de licence (Basic, Professional, Enterprise)
+
+Statut (Actif, Expiré, Annulé)
+
+Renouveler une licence :
+
+Sélectionner la durée (30, 90, 365 jours)
+
+Changer le type de licence
+
+Mettre à jour la date d'expiration
+
+Générer les notifications
+
+Annuler une licence :
+
+Désactiver immédiatement la boutique
+
+Archiver les données
+
+Notifier l'administrateur
+
+1.6 Notifications
+Recevoir des notifications pour :
+
+Nouvelle boutique créée
+
+Nouvelle réservation
+
+Licence expirée/proche de l'expiration
+
+Anomalies système
+
+Centre de notifications :
+
+Liste des notifications avec timestamp
+
+Marquer comme lue/non lue
+
+Supprimer les anciennes notifications
+
+Notifications en temps réel (WebSocket)
+
+1.7 Paramètres et Personnalisation
+Profil Super Admin :
+
+Modifier le nom et l'email
+
+Changer le mot de passe
+
+Photo de profil (upload Cloudinary/AWS S3)
+
+Thème de l'interface :
+
+Mode clair (Light Mode)
+
+Mode sombre (Dark Mode)
+
+Sauvegarder la préférence
+
+Préférences système :
+
+Langue (Multi-langue avec i18next)
+
+Fuseau horaire
+
+Notifications par email
+
+🏪 PARTIE 2 : ADMINISTRATEUR DE BOUTIQUE
+2.1 Authentification
+Connexion avec email/mot de passe
+
+Modification du mot de passe
+
+Récupération de compte
+
+2.2 Dashboard de Boutique
+Statistiques de la boutique :
+
+Total de produits
+
+Produits actifs/inactifs
+
+Total de réservations
+
+Réservations en attente
+
+Graphiques d'analytics (produits les plus réservés)
+
+Tableau récent :
+
+Dernières réservations
+
+Derniers produits ajoutés
+
+Alertes stock faible
+
+2.3 Gestion du Profil Boutique
+Informations générales :
+
+Nom de la boutique
+
+Description
+
+Logo (upload Cloudinary/AWS S3)
+
+Bannière (upload)
+
+Catégorie
+
+Coordonnées :
+
+Adresse
+
+Téléphone
+
+Email
+
+Réseaux sociaux :
+
+Liens Facebook, Instagram, Twitter, TikTok
+
+Intégration pour le partage de produits
+
+Paramètres :
+
+Thème (clair/sombre)
+
+Langue
+
+Fuseau horaire
+
+2.4 Gestion des Produits
+Créer un produit :
+
+Nom et slug
+
+Description détaillée
+
+Prix
+
+Catégorie du produit
+
+Images multiples (upload Cloudinary/AWS S3)
+
+Stock disponible
+
+Tags/mots-clés
+
+État du produit (actif/inactif)
+
+Modifier un produit :
+
+Éditer tous les détails
+
+Changer les images
+
+Mettre à jour le stock
+
+Supprimer un produit :
+
+Archiver ou supprimer définitivement
+Afficher la liste :
+
+Paginée avec recherche
+
+Filtrer par statut, catégorie
+
+Voir les statistiques de réservation par produit
+
+2.5 Gestion des Réservations
+Voir toutes les réservations :
+
+Tableau complet avec infos client (nom, téléphone, email)
+
+Produit réservé et quantité
+
+Date de réservation et demande de retrait
+
+Statut (En attente, Confirmée, Complétée, Annulée)
+
+Filtre par statut
+
+Modifier une réservation :
+
+Changer le statut (En attente → Confirmée → Complétée)
+
+Ajouter des notes
+
+Assigner à un employé (si applicable)
+
+Annuler une réservation :
+
+Justification requise
+
+Libérer le stock automatiquement
+
+Notifier le client
+
+2.6 Partage Social & Campagnes Marketing
+Générer un lien de partage pour chaque produit
+
+Boutons de partage :
+
+Facebook
+
+Instagram
+
+WhatsApp
+
+Email
+
+Copier le lien
+
+URL unique et trackable :
+
+Format : brelness.com/product/{shareCode}
+
+Statistiques de clics (analytics)
+
+2.7 Analytics & Statistiques
+Graphiques interactifs (Chart.js) :
+
+Produits les plus réservés
+
+Tendance des réservations (par jour/semaine/mois)
+
+Taux de conversion des partages
+
+Export de données (PDF/Excel) :
+
+Liste des réservations
+
+Rapport de vente
+
+Données clients
+
+2.8 Notifications
+Alerte nouvelle réservation
+
+Alerte stock faible
+
+Notifications système
+
+Notifications en temps réel (WebSocket)
+
+2.9 Avis & Évaluations
+Système de reviews :
+
+Les clients peuvent évaluer les produits (1-5 étoiles)
+
+Commentaires texte
+
+Affichage des avis sur la page produit
+
+Modération des avis
+
+Statistiques moyennes des notes
+
+👤 PARTIE 3 : CLIENT VISITEUR
+3.1 Accès via Lien Social
+Cliquer sur un lien de produit (depuis réseau social)
+
+Page publique dédiée du produit
+
+Design responsive et attrayant
+
+3.2 Page Produit
+Affichage du produit :
+
+Images en galerie
+
+Nom et description
+
+Prix
+
+Stock disponible
+
+Avis clients (étoiles et commentaires)
+
+Information boutique (nom, logo, contact)
+
+Système d'avis :
+
+Voir les avis laissés par d'autres clients
+
+Note moyenne du produit
+
+Avis les plus utiles
+
+3.3 Réservation
+Formulaire simple :
+
+Nom complet (requis)
+
+Téléphone (requis, validé)
+
+Email (optionnel)
+
+Quantité souhaité
+
+Notes spéciales (optionnel)
+
+Agrément conditions d'usage
+
+Validation :
+
+Vérifier le stock
+
+Valider le téléphone
+
+Message de confirmation immédiate
+
+Confirmation :
+
+Message de succès visible
+
+Email de confirmation (si email fourni)
+
+Partage des détails boutique pour suivi
+
+3.4 Catalogue de Boutique
+Accès au catalogue :
+
+Lien depuis la page produit
+
+URL : brelness.com/shop/{shopSlug}
+
+Affichage de tous les produits actifs
+
+Fonctionnalités :
+
+Grille de produits avec images
+
+Filtrer par catégorie
+
+Recherche par nom
+
+Pagination
+
+Cliquer sur un produit pour réserver
+
+3.5 Avis Clients
+Laisser un avis :
+
+Formulaire après réservation (link dans l'email de confirmation)
+
+Évaluation 1-5 étoiles
+
+Commentaire textuel
+
+Nom (optionnel)
+
+3.6 Pas d'Authentification Requise
+Accès entièrement anonyme
+
+Pas de compte nécessaire
+
+Sécurité via CAPTCHA (optionnel)
+
+⚙️ PARTIE 4 : FONCTIONNALITÉS TRANSVERSALES
+4.1 Upload d'Images
+Service : Cloudinary ou AWS S3
+
+Formats acceptés : JPG, PNG, WebP
+
+Tailles max : 5MB par image
+
+Optimisation : Compression automatique
+
+CDN : Distribution globale des images
+
+4.2 Notifications en Temps Réel
+WebSocket (Socket.io) :
+
+Nouvelle réservation → Admin boutique notifié
+
+Statut réservation changé → Client notifié (optionnel)
+
+Alerte licence → Super admin notifié
+
+Notifications système → Tous
+
+4.3 Export de Données
+Formats : PDF et Excel
+
+Données exportables :
+
+Liste des réservations
+
+Rapports de vente
+
+Données clients
+
+Analytics
+
+Planification : Exports programmés (optionnel)
+
+4.4 Analytics Avancées
+Charts.js pour les graphiques :
+
+Graphiques en barres
+
+Graphiques en courbes
+
+Graphiques en camembert
+
+Heatmaps
+
+Données tracées :
+
+Réservations par période
+
+Produits populaires
+
+Taux de conversion
+
+Données démographiques clients
+
+4.5 Système de Reviews/Évaluations
+Fonctionnalités :
+
+Note 1-5 étoiles
+
+Commentaire textuel
+
+Affichage sur la page produit
+
+Modération par admin
+
+Note moyenne et nombre d'avis
+
+Utile/Non utile (votes)
+
+4.6 Multi-Langue
+i18next :
+
+Support du français par défaut
+
+Support de l'anglais, espagnol, arabe, etc.
+
+Commutateur de langue dans les paramètres
+
+Détection automatique selon le navigateur
+
+🔒 PARTIE 5 : SÉCURITÉ & PERFORMANCE
+5.1 Sécurité
+✅ JWT pour l'authentification
+
+✅ Hash bcrypt pour les mots de passe
+
+✅ CORS configuré
+
+✅ Validation des inputs côté serveur
+
+✅ Protection CSRF
+
+✅ Rate limiting
+
+✅ HTTPS obligatoire en production
+
+5.2 Performance
+✅ Cache Redis (optionnel)
+
+✅ Pagination des données
+
+✅ Compression des images
+
+✅ Minification du code
+
+✅ CDN pour les assets
+
+5.3 Base de Données
+MongoDB pour la flexibilité
+
+Collections : Users, Shops, Products, Reservations, Reviews, Notifications
+
+Indexation optimisée
+
+Backups automatiques
+
+📦 STACK TECHNOLOGIQUE RECOMMANDÉ
+Backend :
+
+NestJS + Fastify
+
+PostgreSQL + prisma
+
+Socket.io (notifications temps réel)
+
+Bcryptjs + JWT (sécurité)
+
+Multer + Cloudinary (uploads)
+
+PDFKit + ExcelJS (exports)
+
+i18next (multi-langue)
+
+Frontend :
+
+React + Vite
+
+Tailwind CSS
+
+Chart.js (analytics)
+
+Socket.io client
+
+Axios (API calls)
+
+React Router (navigation)
+
+Zustand (state management)
+
+i18next (multi-langue)
+
+📋 Modèles de Données
+lisp
+
+User (Super Admin / Admin Boutique)
+
+├── Email
+
+├── Password (hashed)
+
+├── Role (superadmin/admin)
+
+├── Profile (nom, photo, téléphone)
+
+└── Preferences (thème, langue)
+
+
+
+Shop
+
+├── Name & Slug
+
+├── Category
+
+├── Owner (Super Admin)
+
+├── Admin (Admin Boutique)
+
+├── Logo & Banner (URL Cloudinary)
+
+├── License (status, dates)
+
+├── Contact Info
+
+└── Social Media Links
+
+
+
+Product
+
+├── Name & Slug
+
+├── Description & Images
+
+├── Price & Stock
+
+├── Shop (référence)
+
+├── ShareLink (unique)
+
+├── Reviews (référence)
+
+└── Reservations Count
+
+
+
+Reservation
+
+├── Product (référence)
+
+├── Customer (Name, Phone, Email)
+
+├── Quantity
+
+├── Status (pending/confirmed/completed)
+
+├── CreatedAt & UpdatedAt
+
+└── Notes
+
+
+
+Review
+
+├── Product (référence)
+
+├── Rating (1-5)
+
+├── Comment
+
+├── CustomerName (optionnel)
+
+└── IsModerated
+
+
+
+Notification
+
+├── User (référence)
+
+├── Type (reservation/license/system)
+
+├── Title & Message
+
+├── Read Status
+
+└── CreatedAt
