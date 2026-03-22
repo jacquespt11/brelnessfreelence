@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Save, Camera, MapPin, Phone, Mail, Facebook, Instagram, Twitter, Globe, Store } from "lucide-react";
+import { Save, Camera, MapPin, Phone, Mail, Facebook, Instagram, Twitter, Globe, Store, XCircle } from "lucide-react";
 import { useApp } from "../../context/AppContext";
 import api from "../../api";
 
@@ -15,6 +15,7 @@ export default function ShopProfile() {
     name: "", slug: "", description: "", category: "", businessType: "produits",
     address: "", phone: "", email: "",
     facebook: "", instagram: "", twitter: "", tiktok: "",
+    heroTitle: "", heroImages: [] as string[],
   });
   const [saved, setSaved] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -31,6 +32,7 @@ export default function ShopProfile() {
           name: data.name || "", slug: data.slug || "", description: data.description || "", category: data.category || "", businessType: data.businessType || "produits",
           address: data.address || "", phone: data.phone || "", email: data.email || "",
           facebook: data.facebook || "", instagram: data.instagram || "", twitter: data.twitter || "", tiktok: data.tiktok || "",
+          heroTitle: data.heroTitle || "", heroImages: data.heroImages || [],
         });
       } catch (err) {
         console.error("Failed to load shop", err);
@@ -41,7 +43,7 @@ export default function ShopProfile() {
     fetchShop();
   }, [currentUser]);
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'logo'|'banner') => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'logo'|'banner'|'heroImages', index?: number) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -51,14 +53,27 @@ export default function ShopProfile() {
       try {
         const upRes = await api.post('/upload', { filename: file.name, data: base64 });
         const newUrl = upRes.data.url;
-        await api.patch(`/shops/me/shop`, { [type]: newUrl });
-        setShop((s: any) => ({ ...s, [type]: newUrl }));
+        
+        if (type === 'heroImages') {
+          const newHeroImages = [...form.heroImages];
+          if (index !== undefined && index < newHeroImages.length) {
+            newHeroImages[index] = newUrl;
+          } else {
+            if (newHeroImages.length < 3) newHeroImages.push(newUrl);
+          }
+          setForm(f => ({ ...f, heroImages: newHeroImages }));
+          await api.patch(`/shops/me/shop`, { heroImages: newHeroImages });
+        } else {
+          await api.patch(`/shops/me/shop`, { [type]: newUrl });
+          setShop((s: any) => ({ ...s, [type]: newUrl }));
+        }
       } catch (err) {
         alert("Erreur lors de l'upload de l'image.");
       }
     };
     reader.readAsDataURL(file);
   };
+
 
   const [saveError, setSaveError] = useState("");
 
@@ -80,6 +95,8 @@ export default function ShopProfile() {
         instagram: form.instagram,
         twitter: form.twitter,
         tiktok: form.tiktok,
+        heroTitle: form.heroTitle,
+        heroImages: form.heroImages,
       });
       setSaved(true);
       setTimeout(() => setSaved(false), 2500);
@@ -144,7 +161,7 @@ export default function ShopProfile() {
               <p className="text-sm text-gray-500 dark:text-gray-400 capitalize">{shop.category}</p>
             </div>
             <div className="ml-auto pb-1">
-              <a href={`http://localhost:5173/shop/${shop.slug}`} target="_blank" rel="noreferrer" className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-gray-200 dark:border-gray-700 text-xs text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+              <a href={`/shop/${shop.slug}`} target="_blank" rel="noreferrer" className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-gray-200 dark:border-gray-700 text-xs text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                 <Globe size={13} />Voir la boutique
               </a>
             </div>
@@ -188,12 +205,18 @@ export default function ShopProfile() {
                   </div>
                 </div>
               </div>
-              <div>
-                <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Catégorie</label>
-                <input list="categories" value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="ex: Startup, PME, etc..." />
-                <datalist id="categories">
-                  {CATEGORIES.map(c => <option key={c} value={c} />)}
-                </datalist>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Titre d'Accueil (Section Héro)</label>
+                  <input value={form.heroTitle} onChange={e => setForm(f => ({ ...f, heroTitle: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="Ex: Le meilleur de nos produits..." />
+                </div>
+                <div>
+                  <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Catégorie</label>
+                  <input list="categories" value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="ex: Startup, PME, etc..." />
+                  <datalist id="categories">
+                    {CATEGORIES.map(c => <option key={c} value={c} />)}
+                  </datalist>
+                </div>
               </div>
               <div>
                 <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Type d'Entreprise</label>
@@ -281,6 +304,47 @@ export default function ShopProfile() {
                   </div>
                 </div>
                 <p className="text-xs text-gray-400 mt-1">Recommandé : 1200×400px</p>
+              </div>
+              
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-sm text-gray-700 dark:text-gray-300 block">Images du slider d'accueil (Max 3)</label>
+                  {form.heroImages.length < 3 && (
+                    <label className="text-xs text-violet-600 dark:text-violet-400 cursor-pointer hover:underline flex items-center gap-1">
+                      <Camera size={13} />
+                      Ajouter
+                      <input type="file" accept="image/*" className="hidden" onChange={e => handleFileUpload(e, 'heroImages')} />
+                    </label>
+                  )}
+                </div>
+                <div className="grid grid-cols-3 gap-3">
+                  {[0, 1, 2].map((i) => (
+                    <div key={i} className="relative h-24 rounded-xl overflow-hidden border-2 border-dashed border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 flex items-center justify-center">
+                      {form.heroImages[i] ? (
+                        <>
+                          <img src={form.heroImages[i]} alt="Hero slide" className="w-full h-full object-cover" />
+                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                            <label className="p-2 bg-white rounded-lg text-gray-700 cursor-pointer hover:bg-gray-100 transition-colors shadow-sm">
+                              <Camera size={15} />
+                              <input type="file" accept="image/*" className="hidden" onChange={e => handleFileUpload(e, 'heroImages', i)} />
+                            </label>
+                            <button onClick={(e) => {
+                              e.preventDefault();
+                              const newImgs = [...form.heroImages];
+                              newImgs.splice(i, 1);
+                              setForm(f => ({ ...f, heroImages: newImgs }));
+                            }} className="p-2 ml-2 bg-red-50 text-red-600 rounded-lg cursor-pointer hover:bg-red-100 transition-colors shadow-sm">
+                              <XCircle size={15} />
+                            </button>
+                          </div>
+                        </>
+                      ) : (
+                        <span className="text-xs text-gray-400 italic">Vide</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <p className="text-xs text-gray-400 mt-1">Images qui défilent en arrière-plan. Recommandé : 1920×1080px</p>
               </div>
             </div>
           )}

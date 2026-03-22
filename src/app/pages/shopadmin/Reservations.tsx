@@ -137,6 +137,11 @@ export default function ShopReservations() {
         return { ...r, status: frontendStatus };
       });
       setResList(formattedData);
+
+      // Clear notifications for shop admin when viewing reservations
+      api.patch('/notifications/read-all').then(() => {
+         setNotificationCount(0);
+      }).catch(console.error);
     } catch (err) {
       console.error("Error fetching reservations", err);
     } finally {

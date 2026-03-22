@@ -21,6 +21,7 @@ interface AppContextType {
   toggleDark: () => void;
   notificationCount: number;
   setNotificationCount: React.Dispatch<React.SetStateAction<number>>;
+  checkAuth: () => Promise<void>;
 }
 
 const AppContext = createContext<AppContextType | null>(null);
@@ -105,8 +106,26 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const toggleDark = () => setIsDark(d => !d);
 
+  const checkAuth = async () => {
+    if (!currentUser?.token) return;
+    try {
+      const res = await api.get('/auth/me');
+      const updatedUser = {
+        ...currentUser,
+        name: res.data.name,
+        email: res.data.email,
+        avatar: res.data.avatar,
+        // Preserve role and token
+      };
+      setCurrentUser(updatedUser);
+      localStorage.setItem("brelness_user", JSON.stringify(updatedUser));
+    } catch (err) {
+      console.error("Failed to refresh user profile", err);
+    }
+  };
+
   return (
-    <AppContext.Provider value={{ currentUser, login, logout, isDark, toggleDark, notificationCount, setNotificationCount }}>
+    <AppContext.Provider value={{ currentUser, login, logout, isDark, toggleDark, notificationCount, setNotificationCount, checkAuth }}>
       {children}
     </AppContext.Provider>
   );

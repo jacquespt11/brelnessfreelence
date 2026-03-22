@@ -13,7 +13,8 @@ function ShopModal({ shop, onClose, onSave }: { shop: any | null; onClose: () =>
     description: shop?.description || "", 
     email: shop?.email || "", 
     phone: shop?.phone || "", 
-    address: shop?.address || "" 
+    address: shop?.address || "",
+    heroTitle: shop?.heroTitle || ""
   });
 
   const generateSlug = (name: string) => name.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
@@ -73,8 +74,8 @@ function ShopModal({ shop, onClose, onSave }: { shop: any | null; onClose: () =>
               <input value={form.address} onChange={e => setForm(f => ({ ...f, address: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
             </div>
             <div className="col-span-2">
-              <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Description</label>
-              <textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} rows={3} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none" />
+              <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Titre d'Accueil (Section Héro)</label>
+              <input value={form.heroTitle} onChange={e => setForm(f => ({ ...f, heroTitle: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Le meilleur de nos produits..." />
             </div>
           </div>
         </div>
@@ -134,6 +135,7 @@ export default function SAShops() {
           email: s.email,
           phone: s.phone,
           address: s.address,
+          heroTitle: s.heroTitle,
         });
       } else {
         await api.post(`/shops`, {
@@ -145,6 +147,7 @@ export default function SAShops() {
           email: s.email,
           phone: s.phone,
           address: s.address,
+          heroTitle: s.heroTitle,
         });
       }
       setModalShop(null);

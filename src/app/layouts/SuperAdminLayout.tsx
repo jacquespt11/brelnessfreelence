@@ -142,11 +142,15 @@ export default function SuperAdminLayout() {
               )}
             </NavLink>
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
-                SA
+              <div className="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-white text-sm font-bold overflow-hidden">
+                {currentUser?.avatar ? (
+                  <img src={currentUser.avatar} alt={currentUser.name} className="w-full h-full object-cover" />
+                ) : (
+                  currentUser?.name?.charAt(0).toUpperCase() || "SA"
+                )}
               </div>
               <div className="hidden sm:block">
-                <p className="text-sm font-medium text-gray-900 dark:text-white leading-tight">Super Admin</p>
+                <p className="text-sm font-medium text-gray-900 dark:text-white leading-tight">{currentUser?.name || "Super Admin"}</p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">{currentUser?.email}</p>
               </div>
             </div>

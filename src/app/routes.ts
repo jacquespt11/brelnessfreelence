@@ -14,6 +14,7 @@ import ShopProducts from "./pages/shopadmin/Products";
 import ShopReservations from "./pages/shopadmin/Reservations";
 import ShopAnalytics from "./pages/shopadmin/Analytics";
 import ShopReviews from "./pages/shopadmin/Reviews";
+import ShopClients from "./pages/shopadmin/Clients";
 import ShopProfile from "./pages/shopadmin/Profile";
 import ShopCatalog from "./pages/public/ShopCatalog";
 import ProductPage from "./pages/public/ProductPage";
@@ -99,6 +100,7 @@ const baseRoutes = [
       { index: true, Component: ShopDashboard },
       { path: "products", Component: ShopProducts },
       { path: "reservations", Component: ShopReservations },
+      { path: "clients", Component: ShopClients },
       { path: "analytics", Component: ShopAnalytics },
       { path: "reviews", Component: ShopReviews },
       { path: "profile", Component: ShopProfile },

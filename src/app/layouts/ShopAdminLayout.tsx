@@ -11,6 +11,7 @@ const navItems = (shopType: string) => [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, end: true },
   { to: "/admin/products", label: shopType === 'services' ? "Services" : "Produits", icon: Package },
   { to: "/admin/reservations", label: "Réservations", icon: ClipboardList },
+  { to: "/admin/clients", label: "Clients", icon: User },
   { to: "/admin/analytics", label: "Analytics", icon: BarChart2 },
   { to: "/admin/reviews", label: "Avis clients", icon: Star },
   { to: "/admin/profile", label: "Profil boutique", icon: User },
@@ -94,7 +95,7 @@ export default function ShopAdminLayout() {
       {(!collapsed || mobile) && (
         <div className="px-4 mb-2">
           <a
-            href={shop ? (window.location.hostname.includes("lvh.me") || window.location.hostname === "localhost" ? `http://${shop.slug}.lvh.me:5173` : `https://${shop.slug}.brelness.com`) : "#"}
+            href={shop ? `/shop/${shop.slug}` : "#"}
             target="_blank"
             rel="noreferrer"
             className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm text-violet-200 border border-violet-500/30 hover:bg-white/10 transition-all"
@@ -172,8 +173,12 @@ export default function ShopAdminLayout() {
               )}
             </NavLink>
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-violet-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
-                {currentUser?.name?.charAt(0) || "A"}
+              <div className="w-8 h-8 bg-violet-600 rounded-full flex items-center justify-center text-white text-sm font-bold overflow-hidden">
+                {currentUser?.avatar ? (
+                  <img src={currentUser.avatar} alt={currentUser.name} className="w-full h-full object-cover" />
+                ) : (
+                  currentUser?.name?.charAt(0).toUpperCase() || "A"
+                )}
               </div>
               <div className="hidden sm:block">
                 <p className="text-sm font-medium text-gray-900 dark:text-white leading-tight">{currentUser?.name}</p>

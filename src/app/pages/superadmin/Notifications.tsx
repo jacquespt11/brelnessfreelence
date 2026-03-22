@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Bell, Key, AlertTriangle, Building2, Check, Trash2, CheckCheck } from "lucide-react";
 import { useApp } from "../../context/AppContext";
+import api from "../../api";
 
 export interface Notification {
   id: string;
@@ -25,20 +26,44 @@ export default function SANotifications() {
   const filtered = notifs.filter(n => filter === "all" || n.type === filter);
   const unreadCount = notifs.filter(n => !n.isRead).length;
 
-  const markRead = (id: string) => {
-    setNotifs(prev => prev.map(n => n.id === id ? { ...n, isRead: true } : n));
-    setNotificationCount(prev => Math.max(0, prev - 1));
+  useEffect(() => {
+    fetchNotifs();
+  }, []);
+
+  const fetchNotifs = async () => {
+    try {
+      const { data } = await api.get('/notifications');
+      setNotifs(data);
+      const unread = data.filter((n: any) => !n.isRead).length;
+      setNotificationCount(unread);
+    } catch (err) {
+      console.error("Failed to fetch notifications", err);
+    }
   };
 
-  const markAllRead = () => {
-    setNotifs(prev => prev.map(n => ({ ...n, isRead: true })));
-    setNotificationCount(0);
+  const markRead = async (id: string) => {
+    try {
+      await api.patch(`/notifications/${id}/read`);
+      setNotifs(prev => prev.map(n => n.id === id ? { ...n, isRead: true } : n));
+      setNotificationCount(prev => Math.max(0, prev - 1));
+    } catch (err) {
+      console.error("Failed to mark read", err);
+    }
   };
 
-  const deleteNotif = (id: string) => {
-    const notif = notifs.find(n => n.id === id);
+  const markAllRead = async () => {
+    try {
+      await api.patch('/notifications/read-all');
+      setNotifs(prev => prev.map(n => ({ ...n, isRead: true })));
+      setNotificationCount(0);
+    } catch (err) {
+      console.error("Failed to mark all read", err);
+    }
+  };
+
+  const deleteNotif = async (id: string) => {
+    // Note: delete endpoint not implemented on backend, but we can simulate or filter
     setNotifs(prev => prev.filter(n => n.id !== id));
-    if (notif && !notif.isRead) setNotificationCount(prev => Math.max(0, prev - 1));
   };
 
   const formatTime = (ts: string) => {
@@ -89,8 +114,8 @@ export default function SANotifications() {
             <p className="text-gray-500 dark:text-gray-400">Aucune notification</p>
           </div>
         ) : filtered.map(notif => {
-          const config = TYPE_CONFIG[notif.type as keyof typeof TYPE_CONFIG];
-          const Icon = config.icon;
+          const config = (TYPE_CONFIG as any)[notif.type] || TYPE_CONFIG.system;
+          const Icon = config.icon || AlertTriangle;
           return (
             <div
               key={notif.id}

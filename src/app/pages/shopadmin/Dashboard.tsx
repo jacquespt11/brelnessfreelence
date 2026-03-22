@@ -62,7 +62,12 @@ export default function ShopDashboard() {
   }, [currentUser]);
 
   const pendingRes = shopReservations.filter(r => r.status === "En attente");
+  const completedRes = shopReservations.filter(r => r.status === "Complétée");
   const lowStockProducts = shopProducts.filter(p => p.stock <= 5);
+
+  const totalRevenue = completedRes.reduce((acc, res) => {
+    return acc + (res.product?.price || 0) * res.quantity;
+  }, 0);
 
   const topProducts = [...shopProducts].sort((a, b) => (b.reservationCount || 0) - (a.reservationCount || 0));
 
@@ -116,10 +121,10 @@ export default function ShopDashboard() {
 
       {/* KPI cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard icon={Package} label="Total produits" value={shopProducts.length} sub={`${shopProducts.filter(p => p.status === "active").length} actifs`} bg="bg-violet-100 dark:bg-violet-900/30" color="text-violet-600 dark:text-violet-400" />
+        <StatCard icon={TrendingUp} label="Revenu total" value={`${totalRevenue.toLocaleString("fr")} FCFA`} sub="Revenu des résas complétées" bg="bg-emerald-100 dark:bg-emerald-900/30" color="text-emerald-600 dark:text-emerald-400" />
         <StatCard icon={ClipboardList} label="Réservations" value={shopReservations.length} sub={`${pendingRes.length} en attente`} bg="bg-indigo-100 dark:bg-indigo-900/30" color="text-indigo-600 dark:text-indigo-400" />
-        <StatCard icon={Star} label="Note moyenne" value={shopProducts.length > 0 ? (shopProducts.reduce((s, p) => s + p.rating, 0) / shopProducts.length).toFixed(1) : "—"} sub={`${shopProducts.reduce((s, p) => s + p.reviewCount, 0)} avis`} bg="bg-amber-100 dark:bg-amber-900/30" color="text-amber-600 dark:text-amber-400" />
-        <StatCard icon={TrendingUp} label="Taux confirmation" value={shopReservations.length > 0 ? `${Math.round((shopReservations.filter(r => r.status === "Complétée").length / shopReservations.length) * 100)}%` : "—"} sub="des réservations" bg="bg-emerald-100 dark:bg-emerald-900/30" color="text-emerald-600 dark:text-emerald-400" />
+        <StatCard icon={Package} label="Total produits" value={shopProducts.length} sub={`${shopProducts.filter(p => p.status === "active").length} actifs`} bg="bg-violet-100 dark:bg-violet-900/30" color="text-violet-600 dark:text-violet-400" />
+        <StatCard icon={Star} label="Note moyenne" value={shopProducts.length > 0 ? (shopProducts.reduce((s, p) => s + (p.rating || 0), 0) / shopProducts.length).toFixed(1) : "—"} sub={`${shopProducts.reduce((s, p) => s + (p.reviewCount || 0), 0)} avis`} bg="bg-amber-100 dark:bg-amber-900/30" color="text-amber-600 dark:text-amber-400" />
       </div>
 
       {/* Charts */}
