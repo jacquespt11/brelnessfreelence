@@ -356,7 +356,7 @@ export default function ShopProfile() {
           {saveError && <p className="text-sm text-red-500 flex-1 mr-4">{saveError}</p>}
           <button onClick={handleSave} disabled={saving} className="ml-auto flex items-center gap-2 px-5 py-2.5 bg-violet-600 hover:bg-violet-700 disabled:opacity-50 text-white rounded-xl text-sm font-medium transition-colors">
             {saving ? <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span> : <Save size={15} />}
-            {saving ? "Enregistrement..." : "Enregistrer les modifications"}
+            <span>{saving ? "Enregistrement..." : "Enregistrer les modifications"}</span>
           </button>
         </div>
       </div>
