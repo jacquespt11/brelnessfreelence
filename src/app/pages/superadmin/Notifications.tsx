@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { Bell, Key, AlertTriangle, Building2, Check, Trash2, CheckCheck } from "lucide-react";
 import { useApp } from "../../context/AppContext";
 import api from "../../api";
@@ -84,7 +84,7 @@ export default function SANotifications() {
           <p className="text-gray-500 dark:text-gray-400 text-sm">{unreadCount} notification(s) non lue(s)</p>
         </div>
         {unreadCount > 0 && (
-          <button onClick={markAllRead} className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 transition-colors">
+          <button onClick={markAllRead} className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:bg-blue-100 transition-colors">
             <CheckCheck size={15} />Tout marquer comme lu
           </button>
         )}
@@ -96,7 +96,7 @@ export default function SANotifications() {
           <button
             key={type}
             onClick={() => setFilter(type as any)}
-            className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${filter === type ? "bg-indigo-600 text-white" : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"}`}
+            className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${filter === type ? "bg-blue-600 text-white" : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"}`}
           >
             {type === "all" ? "Toutes" : TYPE_CONFIG[type as keyof typeof TYPE_CONFIG].label}
             {type === "all" && unreadCount > 0 && (
@@ -119,7 +119,7 @@ export default function SANotifications() {
           return (
             <div
               key={notif.id}
-              className={`flex items-start gap-4 p-4 rounded-2xl border transition-all ${notif.isRead ? "bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700" : "bg-indigo-50/50 dark:bg-indigo-900/10 border-indigo-100 dark:border-indigo-800"}`}
+              className={`flex items-start gap-4 p-4 rounded-2xl border transition-all ${notif.isRead ? "bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700" : "bg-blue-50/50 dark:bg-blue-900/10 border-blue-100 dark:border-blue-800"}`}
             >
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${config.bg}`}>
                 <Icon size={18} className={config.color} />
@@ -130,13 +130,13 @@ export default function SANotifications() {
                     <p className={`text-sm font-medium ${notif.isRead ? "text-gray-700 dark:text-gray-300" : "text-gray-900 dark:text-white"}`}>{notif.title}</p>
                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{notif.message}</p>
                   </div>
-                  {!notif.isRead && <div className="w-2 h-2 bg-indigo-500 rounded-full flex-shrink-0 mt-1.5" />}
+                  {!notif.isRead && <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0 mt-1.5" />}
                 </div>
                 <p className="text-xs text-gray-400 dark:text-gray-500 mt-1.5">{formatTime(notif.createdAt)}</p>
               </div>
               <div className="flex items-center gap-1 flex-shrink-0">
                 {!notif.isRead && (
-                  <button onClick={() => markRead(notif.id)} title="Marquer comme lu" className="p-1.5 text-gray-400 hover:text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors">
+                  <button onClick={() => markRead(notif.id)} title="Marquer comme lu" className="p-1.5 text-gray-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors">
                     <Check size={14} />
                   </button>
                 )}

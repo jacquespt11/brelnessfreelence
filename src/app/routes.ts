@@ -16,6 +16,10 @@ import ShopAnalytics from "./pages/shopadmin/Analytics";
 import ShopReviews from "./pages/shopadmin/Reviews";
 import ShopClients from "./pages/shopadmin/Clients";
 import ShopProfile from "./pages/shopadmin/Profile";
+import ShopSubscription from "./pages/shopadmin/Subscription";
+import ShopSupport from "./pages/shopadmin/Support";
+import ShopDiscounts from "./pages/shopadmin/Discounts";
+import SATickets from "./pages/superadmin/Tickets";
 import ShopCatalog from "./pages/public/ShopCatalog";
 import ProductPage from "./pages/public/ProductPage";
 import { getSubdomain } from "./utils/subdomain";
@@ -86,6 +90,7 @@ const baseRoutes = [
       { path: "licenses", Component: SALicenses },
       { path: "notifications", Component: SANotifications },
       { path: "settings", Component: SASettings },
+      { path: "tickets", Component: SATickets },
     ],
   },
   {
@@ -103,7 +108,10 @@ const baseRoutes = [
       { path: "clients", Component: ShopClients },
       { path: "analytics", Component: ShopAnalytics },
       { path: "reviews", Component: ShopReviews },
+      { path: "discounts", Component: ShopDiscounts },
       { path: "profile", Component: ShopProfile },
+      { path: "subscription", Component: ShopSubscription },
+      { path: "support", Component: ShopSupport },
     ],
   },
   {

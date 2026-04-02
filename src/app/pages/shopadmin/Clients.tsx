@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { Search, Users, UserCheck, UserPlus, Trophy, Mail, Phone, Calendar, TrendingUp, MoreHorizontal } from "lucide-react";
 import api from "../../api";
 
@@ -70,7 +70,7 @@ export default function ShopClients() {
 
       {/* KPI cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard icon={Users} label="Total clients" value={stats.total} bg="bg-violet-100 dark:bg-violet-900/30" color="text-violet-600 dark:text-violet-400" />
+        <StatCard icon={Users} label="Total clients" value={stats.total} bg="bg-blue-100 dark:bg-blue-900/30" color="text-blue-600 dark:text-blue-400" />
         <StatCard icon={UserCheck} label="Clients actifs" value={stats.active} bg="bg-emerald-100 dark:bg-emerald-900/30" color="text-emerald-600 dark:text-emerald-400" />
         <StatCard icon={UserPlus} label="Nouveaux ce mois" value={stats.newThisMonth} bg="bg-blue-100 dark:bg-blue-900/30" color="text-blue-600 dark:text-blue-400" />
         <StatCard icon={Trophy} label="Client le plus actif" value={stats.mostActive} bg="bg-amber-100 dark:bg-amber-900/30" color="text-amber-600 dark:text-amber-400" />
@@ -85,7 +85,7 @@ export default function ShopClients() {
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Rechercher par nom, email ou téléphone..."
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500 transition-all"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
           />
         </div>
         <div className="flex bg-gray-100 dark:bg-gray-800 p-1 rounded-xl w-full sm:w-auto">
@@ -125,7 +125,7 @@ export default function ShopClients() {
                 <tr key={idx} className="hover:bg-gray-50/80 dark:hover:bg-gray-700/30 transition-colors">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-full bg-violet-100 dark:bg-violet-900/40 flex items-center justify-center text-violet-600 dark:text-violet-400 font-bold text-sm">
+                      <div className="w-9 h-9 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold text-sm">
                         {client.name?.charAt(0) || "?"}
                       </div>
                       <span className="text-sm font-medium text-gray-900 dark:text-white">{client.name}</span>

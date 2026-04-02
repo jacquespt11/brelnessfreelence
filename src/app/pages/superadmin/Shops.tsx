@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { Search, Plus, CheckCircle, XCircle, Edit2, Trash2, Eye } from "lucide-react";
 import api from "../../api";
 
@@ -37,51 +37,51 @@ function ShopModal({ shop, onClose, onSave }: { shop: any | null; onClose: () =>
           <div className="grid grid-cols-2 gap-4">
             <div className="col-span-2">
               <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Nom de la boutique</label>
-              <input value={form.name} onChange={e => handleNameChange(e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+              <input value={form.name} onChange={e => handleNameChange(e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
             </div>
             <div className="col-span-2">
               <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Sous-domaine (URL)</label>
               <div className="flex items-center gap-2">
-                <input value={form.slug} onChange={e => setForm(f => ({ ...f, slug: generateSlug(e.target.value) }))} className="flex-1 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="nom-boutique" />
+                <input value={form.slug} onChange={e => setForm(f => ({ ...f, slug: generateSlug(e.target.value) }))} className="flex-1 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="nom-boutique" />
                 <span className="text-sm text-gray-400">.brelness.com</span>
               </div>
               <p className="text-[10px] text-gray-400 mt-1 italic">URL finale : https://{form.slug || "..."}.brelness.com</p>
             </div>
             <div>
               <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Catégorie</label>
-              <input list="categories" value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} placeholder="ex: Startup, Cosmétiques..." className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+              <input list="categories" value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} placeholder="ex: Startup, Cosmétiques..." className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
               <datalist id="categories">
                 {CATEGORIES.map(c => <option key={c} value={c} />)}
               </datalist>
             </div>
             <div>
               <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Type d'Entreprise</label>
-              <select value={form.businessType} onChange={e => setForm(f => ({ ...f, businessType: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              <select value={form.businessType} onChange={e => setForm(f => ({ ...f, businessType: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <option value="produits">Vente de Produits</option>
                 <option value="services">Vente de Services (PME/Startup)</option>
               </select>
             </div>
             <div>
               <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Email</label>
-              <input type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+              <input type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
             </div>
             <div>
               <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Téléphone</label>
-              <input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+              <input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
             </div>
             <div>
               <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Adresse</label>
-              <input value={form.address} onChange={e => setForm(f => ({ ...f, address: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+              <input value={form.address} onChange={e => setForm(f => ({ ...f, address: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
             </div>
             <div className="col-span-2">
               <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Titre d'Accueil (Section Héro)</label>
-              <input value={form.heroTitle} onChange={e => setForm(f => ({ ...f, heroTitle: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Le meilleur de nos produits..." />
+              <input value={form.heroTitle} onChange={e => setForm(f => ({ ...f, heroTitle: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Le meilleur de nos produits..." />
             </div>
           </div>
         </div>
         <div className="px-6 py-4 border-t border-gray-100 dark:border-gray-700 flex gap-3 justify-end">
           <button onClick={onClose} className="px-4 py-2 rounded-lg text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Annuler</button>
-          <button onClick={() => onSave({ ...shop, ...form })} className="px-4 py-2 rounded-lg text-sm bg-indigo-600 hover:bg-indigo-700 text-white transition-colors">Enregistrer</button>
+          <button onClick={() => onSave({ ...shop, ...form })} className="px-4 py-2 rounded-lg text-sm bg-blue-600 hover:bg-blue-700 text-white transition-colors">Enregistrer</button>
         </div>
       </div>
     </div>
@@ -186,7 +186,7 @@ export default function SAShops() {
           <h1 className="text-gray-900 dark:text-white">Boutiques</h1>
           <p className="text-gray-500 dark:text-gray-400 text-sm">{shops.length} boutiques enregistrées</p>
         </div>
-        <button onClick={() => setModalShop("new")} className="flex items-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm transition-colors">
+        <button onClick={() => setModalShop("new")} className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm transition-colors">
           <Plus size={16} />Nouvelle boutique
         </button>
       </div>
@@ -195,14 +195,14 @@ export default function SAShops() {
       <div className="flex flex-wrap gap-3">
         <div className="relative flex-1 min-w-48">
           <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-          <input value={search} onChange={e => { setSearch(e.target.value); setPage(1); }} placeholder="Rechercher une boutique…" className="w-full pl-9 pr-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+          <input value={search} onChange={e => { setSearch(e.target.value); setPage(1); }} placeholder="Rechercher une boutique…" className="w-full pl-9 pr-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
-        <select value={filterStatus} onChange={e => { setFilterStatus(e.target.value as any); setPage(1); }} className="px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        <select value={filterStatus} onChange={e => { setFilterStatus(e.target.value as any); setPage(1); }} className="px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
           <option value="all">Tous les statuts</option>
           <option value="active">Active</option>
           <option value="inactive">Inactive</option>
         </select>
-        <select value={filterCat} onChange={e => { setFilterCat(e.target.value as any); setPage(1); }} className="px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        <select value={filterCat} onChange={e => { setFilterCat(e.target.value as any); setPage(1); }} className="px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
           <option value="all">Toutes catégories</option>
           {Array.from(new Set(shops.map(s => s.category).filter(Boolean))).map(c => (
             <option key={String(c)} value={String(c)}>{String(c)}</option>
@@ -256,7 +256,7 @@ export default function SAShops() {
 
                   <td className="px-5 py-3.5 relative">
                     <div className="flex items-center gap-1">
-                      <a href={`/shop/${shop.slug}`} target="_blank" className="p-1.5 text-gray-400 hover:text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors" title="Voir"><Eye size={15} /></a>
+                      <a href={`/shop/${shop.slug}`} target="_blank" className="p-1.5 text-gray-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors" title="Voir"><Eye size={15} /></a>
                       <button onClick={() => setModalShop(shop)} className="p-1.5 text-gray-400 hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors" title="Modifier"><Edit2 size={15} /></button>
                       <button onClick={() => deleteShop(shop.id)} className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors" title="Supprimer"><Trash2 size={15} /></button>
                     </div>

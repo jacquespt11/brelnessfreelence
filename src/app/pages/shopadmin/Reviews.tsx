@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { Star, CheckCircle, XCircle, ThumbsUp, Search, Filter } from "lucide-react";
 import { useApp } from "../../context/AppContext";
 import api from "../../api";
@@ -105,7 +105,7 @@ export default function ShopReviews() {
       <div className="flex flex-wrap gap-3">
         <div className="relative flex-1 min-w-48">
           <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Rechercher un avis…" className="w-full pl-9 pr-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" />
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Rechercher un avis…" className="w-full pl-9 pr-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
         <select value={filterModerated} onChange={e => setFilterModerated(e.target.value as any)} className="px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none">
           <option value="all">Tous les avis</option>
@@ -130,7 +130,7 @@ export default function ShopReviews() {
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-400 to-indigo-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
                       {("Client").charAt(0)}
                     </div>
                     <div>
@@ -141,10 +141,10 @@ export default function ShopReviews() {
                       </div>
                     </div>
                   </div>
-                  <p className="text-xs font-medium text-violet-600 dark:text-violet-400 mb-1">→ {review.product?.name || "Boutique"}</p>
+                  <p className="text-xs font-medium text-blue-600 dark:text-blue-400 mb-1">→ {review.product?.name || "Boutique"}</p>
                   <p className="text-sm text-gray-600 dark:text-gray-400">{review.comment}</p>
                   <div className="flex items-center gap-3 mt-3">
-                    <button className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-violet-500 transition-colors">
+                    <button className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-blue-500 transition-colors">
                       <ThumbsUp size={12} />Utile (0)
                     </button>
                     {review.status !== "published" && (

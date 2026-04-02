@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { Key, CheckCircle, XCircle, Clock, RefreshCw, AlertTriangle } from "lucide-react";
 import api from "../../api";
 
 export type LicenseType = "Basic" | "Professional" | "Enterprise";
-export type LicenseStatus = "Actif" | "Expiré" | "Annulé";
+export type LicenseStatus = "ACTIVE" | "WARNING" | "GRACE_PERIOD" | "EXPIRED" | "Annulé";
 
 const LICENSE_TYPES: LicenseType[] = ["Basic", "Professional", "Enterprise"];
 const LICENSE_FEATURES: Record<LicenseType, string[]> = {
@@ -31,9 +31,9 @@ function RenewModal({ shopId, currentType, onClose, onRenew }: any) {
                 <button
                   key={type}
                   onClick={() => setLicenseType(type)}
-                  className={`p-3 rounded-xl border-2 text-left transition-all ${licenseType === type ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20" : "border-gray-200 dark:border-gray-600 hover:border-indigo-300"}`}
+                  className={`p-3 rounded-xl border-2 text-left transition-all ${licenseType === type ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20" : "border-gray-200 dark:border-gray-600 hover:border-blue-300"}`}
                 >
-                  <p className={`text-sm font-medium ${licenseType === type ? "text-indigo-600 dark:text-indigo-400" : "text-gray-700 dark:text-gray-300"}`}>{type}</p>
+                  <p className={`text-sm font-medium ${licenseType === type ? "text-blue-600 dark:text-blue-400" : "text-gray-700 dark:text-gray-300"}`}>{type}</p>
                   <ul className="mt-1 space-y-0.5">
                     {LICENSE_FEATURES[type].slice(0, 2).map(f => (
                       <li key={f} className="text-xs text-gray-500 dark:text-gray-400">• {f}</li>
@@ -50,22 +50,22 @@ function RenewModal({ shopId, currentType, onClose, onRenew }: any) {
                 <button
                   key={d}
                   onClick={() => setDuration(d)}
-                  className={`flex-1 py-2.5 rounded-xl border-2 text-sm font-medium transition-all ${duration === d ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400" : "border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:border-indigo-300"}`}
+                  className={`flex-1 py-2.5 rounded-xl border-2 text-sm font-medium transition-all ${duration === d ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400" : "border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:border-blue-300"}`}
                 >
                   {d === 365 ? "1 an" : `${d} jours`}
                 </button>
               ))}
             </div>
           </div>
-          <div className="bg-indigo-50 dark:bg-indigo-900/20 rounded-xl p-4">
-            <p className="text-sm text-indigo-700 dark:text-indigo-300 font-medium">
+          <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4">
+            <p className="text-sm text-blue-700 dark:text-blue-300 font-medium">
               Nouvelle expiration : {new Date(Date.now() + duration * 86400000).toLocaleDateString("fr", { day: "numeric", month: "long", year: "numeric" })}
             </p>
           </div>
         </div>
         <div className="px-6 py-4 border-t border-gray-100 dark:border-gray-700 flex gap-3 justify-end">
           <button onClick={onClose} className="px-4 py-2 rounded-lg text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Annuler</button>
-          <button onClick={() => onRenew(shopId, licenseType, duration)} className="px-4 py-2 rounded-lg text-sm bg-indigo-600 hover:bg-indigo-700 text-white transition-colors flex items-center gap-2">
+          <button onClick={() => onRenew(shopId, licenseType, duration)} className="px-4 py-2 rounded-lg text-sm bg-blue-600 hover:bg-blue-700 text-white transition-colors flex items-center gap-2">
             <RefreshCw size={14} />Renouveler
           </button>
         </div>
@@ -114,6 +114,15 @@ export default function SALicenses() {
     }
   };
 
+  const toggleManualOverride = async (shopId: string, currentVal: boolean) => {
+    try {
+      await api.patch(`/shops/${shopId}`, { isManualOverride: !currentVal });
+      await fetchShops();
+    } catch (err) {
+      alert("Erreur lors de la modification du Bypass.");
+    }
+  };
+
   const handleCancel = async (shopId: string) => {
     if (confirm("Annuler la licence de cette boutique ?")) {
       try {
@@ -127,14 +136,17 @@ export default function SALicenses() {
   };
 
   const statusIcon = (status: LicenseStatus) => {
-    if (status === "Actif") return <CheckCircle size={14} className="text-emerald-500" />;
-    if (status === "Expiré") return <XCircle size={14} className="text-red-500" />;
+    if (status === "ACTIVE") return <CheckCircle size={14} className="text-emerald-500" />;
+    if (status === "WARNING") return <AlertTriangle size={14} className="text-amber-500" />;
+    if (status === "GRACE_PERIOD") return <Clock size={14} className="text-red-500" />;
+    if (status === "EXPIRED") return <XCircle size={14} className="text-red-500" />;
     return <XCircle size={14} className="text-gray-400" />;
   };
 
   const statusColor = (status: LicenseStatus) => {
-    if (status === "Actif") return "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400";
-    if (status === "Expiré") return "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400";
+    if (status === "ACTIVE") return "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400";
+    if (status === "WARNING") return "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400";
+    if (status === "GRACE_PERIOD" || status === "EXPIRED") return "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400";
     return "bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400";
   };
 
@@ -154,8 +166,8 @@ export default function SALicenses() {
       {/* Summary cards */}
       <div className="grid grid-cols-3 gap-4">
         {[
-          { label: "Actives", value: shops.filter(s => s.license.status === "Actif").length, icon: CheckCircle, color: "text-emerald-500", bg: "bg-emerald-50 dark:bg-emerald-900/20" },
-          { label: "Expirées", value: shops.filter(s => s.license.status === "Expiré").length, icon: XCircle, color: "text-red-500", bg: "bg-red-50 dark:bg-red-900/20" },
+          { label: "Actives & Warning", value: shops.filter(s => s.license.status === "ACTIVE" || s.license.status === "WARNING").length, icon: CheckCircle, color: "text-emerald-500", bg: "bg-emerald-50 dark:bg-emerald-900/20" },
+          { label: "Grâce & Expirées", value: shops.filter(s => s.license.status === "GRACE_PERIOD" || s.license.status === "EXPIRED").length, icon: XCircle, color: "text-red-500", bg: "bg-red-50 dark:bg-red-900/20" },
           { label: "Annulées", value: shops.filter(s => s.license.status === "Annulé").length, icon: Clock, color: "text-gray-400", bg: "bg-gray-100 dark:bg-gray-700" },
         ].map(item => (
           <div key={item.label} className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 flex items-center gap-4">
@@ -176,7 +188,7 @@ export default function SALicenses() {
           <table className="w-full">
             <thead>
               <tr className="border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-750">
-                {["Boutique", "Type", "Statut", "Début", "Expiration", "Jours restants", "Actions"].map(h => (
+                {["Boutique", "Type", "Statut", "Début", "Expiration", "Bypass Admin", "Actions"].map(h => (
                   <th key={h} className="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{h}</th>
                 ))}
               </tr>
@@ -214,26 +226,24 @@ export default function SALicenses() {
                       {new Date(shop.license.endDate).toLocaleDateString("fr")}
                     </td>
                     <td className="px-5 py-3.5">
-                      {shop.license.status === "Actif" ? (
-                        <div className="flex items-center gap-1.5">
-                          {isExpiring && <AlertTriangle size={13} className="text-amber-500" />}
-                          <span className={`text-sm font-medium ${days <= 0 ? "text-red-500" : isExpiring ? "text-amber-600 dark:text-amber-400" : "text-emerald-600 dark:text-emerald-400"}`}>
-                            {days <= 0 ? "Expiré" : `${days}j`}
-                          </span>
-                        </div>
-                      ) : <span className="text-sm text-gray-400">—</span>}
+                      <button 
+                        onClick={() => toggleManualOverride(shop.id, shop.isManualOverride)}
+                        className={`px-3 py-1 rounded-full text-xs font-medium border transition-colors ${shop.isManualOverride ? 'bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400' : 'bg-gray-50 text-gray-500 border-gray-200 dark:bg-gray-800 dark:border-gray-700'}`}
+                      >
+                        {shop.isManualOverride ? 'Actif' : 'Inactif'}
+                      </button>
                     </td>
                     <td className="px-5 py-3.5">
                       <div className="flex items-center gap-2">
                         {shop.license.status !== "Annulé" && (
                           <button
                             onClick={() => setRenewModal({ shopId: shop.id, currentType: shop.license.type })}
-                            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400 hover:bg-indigo-200 dark:hover:bg-indigo-900/50 transition-colors"
+                            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
                           >
-                            <RefreshCw size={11} />Renouveler
+                            <RefreshCw size={11} />Renouv.
                           </button>
                         )}
-                        {shop.license.status === "Actif" && (
+                        {(shop.license.status === "ACTIVE" || shop.license.status === "WARNING" || shop.license.status === "GRACE_PERIOD") && (
                           <button
                             onClick={() => handleCancel(shop.id)}
                             className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 hover:bg-red-200 transition-colors"

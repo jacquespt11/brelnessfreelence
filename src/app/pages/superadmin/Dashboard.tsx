@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { Building2, Users, Key, AlertTriangle, CheckCircle, XCircle } from "lucide-react";
 import api from "../../api";
 
@@ -59,7 +59,7 @@ export default function SADashboard() {
   if (loading) {
     return (
       <div className="p-12 flex flex-col items-center justify-center min-h-[50vh]">
-        <div className="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mb-4"></div>
+        <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4"></div>
         <p className="text-gray-500">Chargement du tableau de bord...</p>
       </div>
     );
@@ -97,7 +97,7 @@ export default function SADashboard() {
 
       {/* KPI Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-        <StatCard icon={Building2} label="Boutiques actives" value={activeShops} sub={`${shops.length - activeShops} inactive(s)`} color="bg-indigo-500" />
+        <StatCard icon={Building2} label="Boutiques actives" value={activeShops} sub={`${shops.length - activeShops} inactive(s)`} color="bg-blue-500" />
         <StatCard icon={Key} label="Licences actives" value={shops.filter(s => s.license?.status === "Actif").length} sub={`${expiredLicenses} expirée(s)`} color="bg-emerald-500" />
         <StatCard icon={Users} label="Administrateurs" value={admins.length} sub={`${admins.length} actifs`} color="bg-amber-500" />
       </div>
@@ -120,7 +120,7 @@ export default function SADashboard() {
                   {new Date(notif.createdAt).toLocaleDateString("fr", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
                 </p>
               </div>
-              {!notif.isRead && <div className="w-2 h-2 bg-indigo-500 rounded-full flex-shrink-0 mt-1.5" />}
+              {!notif.isRead && <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0 mt-1.5" />}
             </div>
           ))}
         </div>
@@ -130,7 +130,7 @@ export default function SADashboard() {
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
         <div className="px-5 py-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
           <h3 className="text-gray-900 dark:text-white">Boutiques récentes</h3>
-          <a href="/superadmin/shops" className="text-sm text-indigo-600 dark:text-indigo-400 hover:underline">Voir tout</a>
+          <a href="/superadmin/shops" className="text-sm text-blue-600 dark:text-blue-400 hover:underline">Voir tout</a>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">

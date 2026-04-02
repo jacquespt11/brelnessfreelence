@@ -13,6 +13,9 @@ function ProductModal({ product, shopId, businessType, onClose, onSave }: any) {
   const [form, setForm] = useState({
     name: product?.name || "", description: product?.description || "", price: product?.price || "", category: product?.category || "Autre",
     stock: product?.stock || 0, status: product?.status || "active", tags: product?.tags?.join(", ") || "",
+    isService: product?.isService !== undefined ? product.isService : isService,
+    durationMin: product?.durationMin || 60,
+    variants: product?.variants || []
   });
   
   const [images, setImages] = useState<string[]>(product?.images || []);
@@ -44,30 +47,43 @@ function ProductModal({ product, shopId, businessType, onClose, onSave }: any) {
         <div className="p-6 space-y-4">
           <div>
             <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Nom du {itemName} *</label>
-            <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" />
+            <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
           <div>
             <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Description</label>
-            <textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} rows={3} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 resize-none" />
+            <textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} rows={3} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Prix (FCFA) *</label>
-              <input type="number" value={form.price} onChange={e => setForm(f => ({ ...f, price: Number(e.target.value) }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" />
+              <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Prix de base (FCFA) *</label>
+              <input type="number" value={form.price} onChange={e => setForm(f => ({ ...f, price: Number(e.target.value) }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
             </div>
-            <div>
-              <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">{isService ? "Capacité d'accueil / Quotas" : "Stock disponible"}</label>
-              <input type="number" value={form.stock} onChange={e => setForm(f => ({ ...f, stock: Number(e.target.value) }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" />
+            {!form.isService && (
+              <div>
+                <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Stock global disponible</label>
+                <input type="number" value={form.stock} onChange={e => setForm(f => ({ ...f, stock: Number(e.target.value) }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              </div>
+            )}
+            {form.isService && (
+              <div>
+                <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Durée estimée (minutes)</label>
+                <input type="number" value={form.durationMin} onChange={e => setForm(f => ({ ...f, durationMin: Number(e.target.value) }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              </div>
+            )}
+            <div className="flex items-center gap-3">
+              <label className="text-sm text-gray-700 dark:text-gray-300">Ce produit est un Service :</label>
+              <input type="checkbox" checked={form.isService} onChange={e => setForm(f => ({ ...f, isService: e.target.checked }))} className="w-4 h-4 text-blue-600 rounded" />
             </div>
             <div>
               <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Catégorie</label>
-              <select value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
-                {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-              </select>
+              <input list="category-options" value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} placeholder="Ex: Robes, Électronique, Soins..." className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              <datalist id="category-options">
+                {CATEGORIES.map(c => <option key={c} value={c} />)}
+              </datalist>
             </div>
             <div>
               <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Statut</label>
-              <select value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
+              <select value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <option value="active">Actif</option>
                 <option value="inactive">Inactif</option>
               </select>
@@ -75,7 +91,28 @@ function ProductModal({ product, shopId, businessType, onClose, onSave }: any) {
           </div>
           <div>
             <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Tags (séparés par virgule)</label>
-            <input value={form.tags} onChange={e => setForm(f => ({ ...f, tags: e.target.value }))} placeholder="ex: été, floral, tendance" className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" />
+            <input value={form.tags} onChange={e => setForm(f => ({ ...f, tags: e.target.value }))} placeholder="ex: été, floral, tendance" className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+
+          <div className="border border-gray-200 dark:border-gray-700 rounded-xl p-4 bg-gray-50/50 dark:bg-gray-800/50">
+            <div className="flex justify-between items-center mb-3">
+              <label className="text-sm font-medium text-gray-900 dark:text-white">Variantes (Options, Tailles...)</label>
+              <button type="button" onClick={() => setForm(f => ({ ...f, variants: [...f.variants, { name: "", price: 0, stock: 0 }] }))} className="text-xs text-blue-600 dark:text-blue-400 font-medium hover:underline">+ Ajouter</button>
+            </div>
+            {form.variants.length === 0 ? (
+              <p className="text-xs text-gray-500">Aucune variante enregistrée.</p>
+            ) : (
+              <div className="space-y-3">
+                {form.variants.map((v: any, idx: number) => (
+                  <div key={idx} className="flex gap-2 items-center">
+                    <input placeholder="Nom (ex: Rouge, Taille M)" value={v.name} onChange={e => { const nv = [...form.variants]; nv[idx].name = e.target.value; setForm({ ...form, variants: nv }); }} className="flex-1 px-3 py-1.5 rounded-lg border text-sm" />
+                    <input type="number" placeholder="Prix optionnel" value={v.price || ""} onChange={e => { const nv = [...form.variants]; nv[idx].price = Number(e.target.value); setForm({ ...form, variants: nv }); }} className="w-24 px-3 py-1.5 rounded-lg border text-sm" />
+                    <input type="number" placeholder="Stock" value={v.stock} onChange={e => { const nv = [...form.variants]; nv[idx].stock = Number(e.target.value); setForm({ ...form, variants: nv }); }} className="w-20 px-3 py-1.5 rounded-lg border text-sm" />
+                    <button type="button" onClick={() => { const nv = form.variants.filter((_, i) => i !== idx); setForm({ ...form, variants: nv }); }} className="text-red-500"><Trash2 size={16} /></button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           <div>
             <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Images du {itemName}</label>
@@ -100,7 +137,7 @@ function ProductModal({ product, shopId, businessType, onClose, onSave }: any) {
         </div>
         <div className="px-6 py-4 border-t border-gray-100 dark:border-gray-700 flex gap-3 justify-end">
           <button onClick={onClose} className="px-4 py-2 rounded-lg text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Annuler</button>
-          <button onClick={() => onSave({ ...product, ...form, tags: form.tags.split(",").map((t: string) => t.trim()).filter(Boolean), images, shopId })} className="px-4 py-2 rounded-lg text-sm bg-violet-600 hover:bg-violet-700 text-white transition-colors">Enregistrer</button>
+          <button onClick={() => onSave({ ...product, ...form, tags: form.tags.split(",").map((t: string) => t.trim()).filter(Boolean), images, shopId })} className="px-4 py-2 rounded-lg text-sm bg-blue-600 hover:bg-blue-700 text-white transition-colors">Enregistrer</button>
         </div>
       </div>
     </div>
@@ -138,7 +175,7 @@ function ShareModal({ product, onClose }: { product: any; onClose: () => void })
             <label className="text-xs text-gray-500 dark:text-gray-400 mb-1 block">Lien de partage</label>
             <div className="flex gap-2">
               <input readOnly value={shareUrl} className="flex-1 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs focus:outline-none" />
-              <button onClick={copy} className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors flex items-center gap-1 ${copied ? "bg-green-100 text-green-700" : "bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-400 hover:bg-violet-200"}`}>
+              <button onClick={copy} className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors flex items-center gap-1 ${copied ? "bg-green-100 text-green-700" : "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 hover:bg-blue-200"}`}>
                 {copied ? <><CheckCircle size={12} />Copié!</> : <><Copy size={12} />Copier</>}
               </button>
             </div>
@@ -172,6 +209,7 @@ export default function ShopProducts() {
 
   const [shopSlug, setShopSlug] = useState("");
   const [businessType, setBusinessType] = useState("produits");
+  const [shop, setShop] = useState<any>(null);
 
   const fetchProducts = async () => {
     if (!currentUser?.shopId) return;
@@ -179,14 +217,10 @@ export default function ShopProducts() {
       setLoading(true);
       const res = await api.get(`/products/shop/${currentUser.shopId}`);
       setProducts(res.data);
-      // Hack to get the shop slug and business Type for sharing links easily for now
-      if (res.data.length > 0 && res.data[0].shop) {
-        setShopSlug(res.data[0].shop.slug);
-        setBusinessType(res.data[0].shop.businessType || "produits");
-      } else {
-        // fetch shop to get businessType if there are no products
-        await api.get(`/shops/me/shop`).then(r => setBusinessType(r.data.businessType || "produits")).catch(console.error);
-      }
+      const resShop = await api.get(`/shops/me/shop`);
+      setShop(resShop.data);
+      setShopSlug(resShop.data.slug);
+      setBusinessType(resShop.data.businessType || "produits");
     } catch (err) {
       console.error("Error fetching products", err);
     } finally {
@@ -206,26 +240,23 @@ export default function ShopProducts() {
 
     const handleSave = async (p: any) => {
     try {
+      const payload = {
+        name: p.name,
+        description: p.description,
+        price: Number(p.price),
+        stock: Number(p.stock),
+        category: p.category,
+        tags: p.tags,
+        images: p.images,
+        isService: p.isService,
+        durationMin: Number(p.durationMin),
+        variants: p.variants.map((v: any) => ({ name: v.name, price: Number(v.price), stock: Number(v.stock) }))
+      };
+      
       if (p.id) {
-        await api.patch(`/products/${p.id}`, {
-          name: p.name,
-          description: p.description,
-          price: Number(p.price),
-          stock: Number(p.stock),
-          category: p.category,
-          tags: p.tags,
-          images: p.images
-        });
+        await api.patch(`/products/${p.id}`, payload);
       } else {
-        await api.post(`/products`, {
-          name: p.name,
-          description: p.description,
-          price: Number(p.price),
-          stock: Number(p.stock),
-          category: p.category,
-          tags: p.tags,
-          images: p.images
-        });
+        await api.post(`/products`, payload);
       }
       setModalProduct(null);
       fetchProducts();
@@ -250,6 +281,10 @@ export default function ShopProducts() {
   const itemsName = isService ? "Services" : "Produits";
   const itemName = isService ? "service" : "produit";
 
+  const isReadOnly = shop?.license && 
+    (shop.license.status === 'GRACE_PERIOD' || shop.license.status === 'EXPIRED') &&
+    !shop.isManualOverride;
+
   return (
     <div className="p-6 space-y-5">
       <div className="flex items-center justify-between">
@@ -257,7 +292,7 @@ export default function ShopProducts() {
           <h1 className="text-gray-900 dark:text-white">{itemsName}</h1>
           <p className="text-gray-500 dark:text-gray-400 text-sm">{products.length} {itemName}s dans votre boutique</p>
         </div>
-        <button onClick={() => setModalProduct("new")} className="flex items-center gap-2 px-4 py-2.5 bg-violet-600 hover:bg-violet-700 text-white rounded-xl text-sm transition-colors">
+        <button disabled={isReadOnly} onClick={() => setModalProduct("new")} className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm transition-colors ${isReadOnly ? 'bg-gray-200 text-gray-500 cursor-not-allowed dark:bg-gray-700 dark:text-gray-400' : 'bg-blue-600 hover:bg-blue-700 text-white'}`}>
           <Plus size={16} />Nouveau {itemName}
         </button>
       </div>
@@ -266,16 +301,16 @@ export default function ShopProducts() {
       <div className="flex flex-wrap gap-3">
         <div className="relative flex-1 min-w-48">
           <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-          <input value={search} onChange={e => setSearch(e.target.value)} placeholder={`Rechercher un ${itemName}…`} className="w-full pl-9 pr-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" />
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder={`Rechercher un ${itemName}…`} className="w-full pl-9 pr-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
-        <select value={filterStatus} onChange={e => setFilterStatus(e.target.value as any)} className="px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
+        <select value={filterStatus} onChange={e => setFilterStatus(e.target.value as any)} className="px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
           <option value="all">Tous</option>
           <option value="active">Actifs</option>
           <option value="inactive">Inactifs</option>
         </select>
         <div className="flex gap-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-1">
-          <button onClick={() => setView("grid")} className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${view === "grid" ? "bg-violet-600 text-white" : "text-gray-500 dark:text-gray-400 hover:text-gray-700"}`}>Grille</button>
-          <button onClick={() => setView("list")} className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${view === "list" ? "bg-violet-600 text-white" : "text-gray-500 dark:text-gray-400 hover:text-gray-700"}`}>Liste</button>
+          <button onClick={() => setView("grid")} className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${view === "grid" ? "bg-blue-600 text-white" : "text-gray-500 dark:text-gray-400 hover:text-gray-700"}`}>Grille</button>
+          <button onClick={() => setView("list")} className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${view === "list" ? "bg-blue-600 text-white" : "text-gray-500 dark:text-gray-400 hover:text-gray-700"}`}>Liste</button>
         </div>
       </div>
 
@@ -303,7 +338,7 @@ export default function ShopProducts() {
                 <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{product.name}</p>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{product.category}</p>
                 <div className="flex items-center justify-between mt-2">
-                  <span className="text-sm font-bold text-violet-600 dark:text-violet-400">{product.price.toLocaleString("fr")} F</span>
+                  <span className="text-sm font-bold text-blue-600 dark:text-blue-400">{product.price.toLocaleString("fr")} F</span>
                   <div className="flex items-center gap-1 text-xs text-amber-500">
                     <Star size={11} fill="currentColor" />
                     <span className="text-gray-600 dark:text-gray-400">{product.rating}</span>
@@ -312,9 +347,13 @@ export default function ShopProducts() {
                 <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-50 dark:border-gray-700">
                   <span className="text-xs text-gray-500 dark:text-gray-400">Stock: {product.stock}</span>
                   <div className="flex items-center gap-1">
-                    <button onClick={() => setShareProduct(product)} className="p-1.5 text-gray-400 hover:text-violet-500 hover:bg-violet-50 dark:hover:bg-violet-900/20 rounded-lg transition-colors"><Share2 size={13} /></button>
-                    <button onClick={() => setModalProduct(product)} className="p-1.5 text-gray-400 hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors"><Edit2 size={13} /></button>
-                    <button onClick={() => deleteProduct(product.id)} className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"><Trash2 size={13} /></button>
+                    <button onClick={() => setShareProduct(product)} className="p-1.5 text-gray-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"><Share2 size={13} /></button>
+                    {!isReadOnly && (
+                      <>
+                        <button onClick={() => setModalProduct(product)} className="p-1.5 text-gray-400 hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors"><Edit2 size={13} /></button>
+                        <button onClick={() => deleteProduct(product.id)} className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"><Trash2 size={13} /></button>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
@@ -364,9 +403,13 @@ export default function ShopProducts() {
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-1">
-                      <button onClick={() => setShareProduct(product)} className="p-1.5 text-gray-400 hover:text-violet-500 hover:bg-violet-50 dark:hover:bg-violet-900/20 rounded-lg transition-colors"><Share2 size={14} /></button>
-                      <button onClick={() => setModalProduct(product)} className="p-1.5 text-gray-400 hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors"><Edit2 size={14} /></button>
-                      <button onClick={() => deleteProduct(product.id)} className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"><Trash2 size={14} /></button>
+                      <button onClick={() => setShareProduct(product)} className="p-1.5 text-gray-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"><Share2 size={14} /></button>
+                      {!isReadOnly && (
+                        <>
+                          <button onClick={() => setModalProduct(product)} className="p-1.5 text-gray-400 hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors"><Edit2 size={14} /></button>
+                          <button onClick={() => deleteProduct(product.id)} className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"><Trash2 size={14} /></button>
+                        </>
+                      )}
                     </div>
                   </td>
                 </tr>

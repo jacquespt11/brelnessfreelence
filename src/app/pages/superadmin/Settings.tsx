@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+﻿import { useState, useEffect, useRef } from "react";
 import { User, Lock, Bell, Globe, Moon, Sun, Save, Camera } from "lucide-react";
 import { useApp } from "../../context/AppContext";
 import api from "../../api";
@@ -103,7 +103,7 @@ export default function SASettings() {
               <button
                 key={id}
                 onClick={() => setTab(id)}
-                className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${tab === id ? "bg-indigo-600 text-white" : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"}`}
+                className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${tab === id ? "bg-blue-600 text-white" : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"}`}
               >
                 <Icon size={16} />
                 {label}
@@ -124,33 +124,33 @@ export default function SASettings() {
                   {profile.avatar ? (
                     <img src={profile.avatar} alt="Avatar" className="w-20 h-20 rounded-2xl object-cover" />
                   ) : (
-                    <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-2xl flex items-center justify-center text-white text-3xl font-bold">
+                    <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center text-white text-3xl font-bold">
                       {profile.name.charAt(0).toUpperCase() || "S"}
                     </div>
                   )}
-                  <button className="absolute -bottom-1 -right-1 w-7 h-7 bg-indigo-600 rounded-lg flex items-center justify-center text-white hover:bg-indigo-700 transition-colors shadow-md">
+                  <button className="absolute -bottom-1 -right-1 w-7 h-7 bg-blue-600 rounded-lg flex items-center justify-center text-white hover:bg-blue-700 transition-colors shadow-md">
                     <Camera size={13} />
                   </button>
                 </div>
                 <div>
                   <p className="font-medium text-gray-900 dark:text-white">{profile.name}</p>
                   <p className="text-sm text-gray-500 dark:text-gray-400">Super Administrateur</p>
-                  <button onClick={() => fileInputRef.current?.click()} className="mt-1 text-xs text-indigo-600 dark:text-indigo-400 hover:underline">Changer la photo</button>
+                  <button onClick={() => fileInputRef.current?.click()} className="mt-1 text-xs text-blue-600 dark:text-blue-400 hover:underline">Changer la photo</button>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Nom complet</label>
-                  <input value={profile.name} onChange={e => setProfile(p => ({ ...p, name: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                  <input value={profile.name} onChange={e => setProfile(p => ({ ...p, name: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
                 </div>
                 <div>
                   <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Email</label>
-                  <input type="email" value={profile.email} onChange={e => setProfile(p => ({ ...p, email: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                  <input type="email" value={profile.email} onChange={e => setProfile(p => ({ ...p, email: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
                 </div>
                 <div>
                   <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Téléphone</label>
-                  <input value={profile.phone} onChange={e => setProfile(p => ({ ...p, phone: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                  <input value={profile.phone} onChange={e => setProfile(p => ({ ...p, phone: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
                 </div>
               </div>
             </div>
@@ -162,15 +162,15 @@ export default function SASettings() {
               <div className="space-y-4">
                 <div>
                   <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Mot de passe actuel</label>
-                  <input type="password" value={passwords.current} onChange={e => setPasswords(p => ({ ...p, current: e.target.value }))} placeholder="••••••••" className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                  <input type="password" value={passwords.current} onChange={e => setPasswords(p => ({ ...p, current: e.target.value }))} placeholder="••••••••" className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
                 </div>
                 <div>
                   <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Nouveau mot de passe</label>
-                  <input type="password" value={passwords.new} onChange={e => setPasswords(p => ({ ...p, new: e.target.value }))} placeholder="••••••••" className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                  <input type="password" value={passwords.new} onChange={e => setPasswords(p => ({ ...p, new: e.target.value }))} placeholder="••••••••" className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
                 </div>
                 <div>
                   <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Confirmer le nouveau mot de passe</label>
-                  <input type="password" value={passwords.confirm} onChange={e => setPasswords(p => ({ ...p, confirm: e.target.value }))} placeholder="••••••••" className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                  <input type="password" value={passwords.confirm} onChange={e => setPasswords(p => ({ ...p, confirm: e.target.value }))} placeholder="••••••••" className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
                 </div>
               </div>
               <div className="bg-amber-50 dark:bg-amber-900/20 rounded-xl p-4">
@@ -199,7 +199,7 @@ export default function SASettings() {
                     </div>
                     <button
                       onClick={() => setNotifSettings(prev => ({ ...prev, [key]: !prev[key as keyof typeof prev] }))}
-                      className={`relative w-11 h-6 rounded-full transition-colors ${notifSettings[key as keyof typeof notifSettings] ? "bg-indigo-600" : "bg-gray-300 dark:bg-gray-600"}`}
+                      className={`relative w-11 h-6 rounded-full transition-colors ${notifSettings[key as keyof typeof notifSettings] ? "bg-blue-600" : "bg-gray-300 dark:bg-gray-600"}`}
                     >
                       <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${notifSettings[key as keyof typeof notifSettings] ? "translate-x-5" : "translate-x-0.5"}`} />
                     </button>
@@ -216,36 +216,36 @@ export default function SASettings() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Nom de la Plateforme</label>
-                    <input value={systemSettings.platformName} onChange={e => setSystemSettings(s => ({ ...s, platformName: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                    <input value={systemSettings.platformName} onChange={e => setSystemSettings(s => ({ ...s, platformName: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
                   </div>
                   <div>
                     <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Email de contact central</label>
-                    <input type="email" value={systemSettings.contactEmail} onChange={e => setSystemSettings(s => ({ ...s, contactEmail: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                    <input type="email" value={systemSettings.contactEmail} onChange={e => setSystemSettings(s => ({ ...s, contactEmail: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
                   </div>
                 </div>
                 
                 <div>
                   <label className="text-sm text-gray-700 dark:text-gray-300 mb-2 block">Thème de l'interface</label>
                   <div className="flex gap-3">
-                    <button onClick={() => isDark && toggleDark()} className={`flex-1 flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all ${!isDark ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20" : "border-gray-200 dark:border-gray-700"}`}>
-                      <Sun size={18} className={!isDark ? "text-indigo-600" : "text-gray-400"} />
-                      <span className={`text-sm font-medium ${!isDark ? "text-indigo-700 dark:text-indigo-300" : "text-gray-600 dark:text-gray-400"}`}>Mode clair</span>
+                    <button onClick={() => isDark && toggleDark()} className={`flex-1 flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all ${!isDark ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20" : "border-gray-200 dark:border-gray-700"}`}>
+                      <Sun size={18} className={!isDark ? "text-blue-600" : "text-gray-400"} />
+                      <span className={`text-sm font-medium ${!isDark ? "text-blue-700 dark:text-blue-300" : "text-gray-600 dark:text-gray-400"}`}>Mode clair</span>
                     </button>
-                    <button onClick={() => !isDark && toggleDark()} className={`flex-1 flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all ${isDark ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20" : "border-gray-200 dark:border-gray-700"}`}>
-                      <Moon size={18} className={isDark ? "text-indigo-400" : "text-gray-400"} />
-                      <span className={`text-sm font-medium ${isDark ? "text-indigo-300" : "text-gray-600 dark:text-gray-400"}`}>Mode sombre</span>
+                    <button onClick={() => !isDark && toggleDark()} className={`flex-1 flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all ${isDark ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20" : "border-gray-200 dark:border-gray-700"}`}>
+                      <Moon size={18} className={isDark ? "text-blue-400" : "text-gray-400"} />
+                      <span className={`text-sm font-medium ${isDark ? "text-blue-300" : "text-gray-600 dark:text-gray-400"}`}>Mode sombre</span>
                     </button>
                   </div>
                 </div>
                 <div>
                   <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Langue</label>
-                  <select value={lang} onChange={e => setLang(e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  <select value={lang} onChange={e => setLang(e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                     {LANGUAGES.map(l => <option key={l} value={l}>{l}</option>)}
                   </select>
                 </div>
                 <div>
                   <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Fuseau horaire</label>
-                  <select value={timezone} onChange={e => setTimezone(e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  <select value={timezone} onChange={e => setTimezone(e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                     {TIMEZONES.map(t => <option key={t} value={t}>{t}</option>)}
                   </select>
                 </div>
@@ -260,7 +260,7 @@ export default function SASettings() {
               {saved && <p className="text-sm text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5"><Save size={14} />Modifications enregistrées !</p>}
             </div>
             <div className="ml-auto">
-              <button onClick={handleSave} className="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-medium transition-colors">
+              <button onClick={handleSave} className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-medium transition-colors">
                 <Save size={15} />Enregistrer
               </button>
             </div>

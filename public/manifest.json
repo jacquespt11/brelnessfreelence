@@ -1,0 +1,42 @@
+{
+  "name": "Brelness - Commerce & Services",
+  "short_name": "Brelness",
+  "description": "La plateforme SaaS pour les boutiques, artisans et freelances en Afrique.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0B1120",
+  "theme_color": "#1D4ED8",
+  "orientation": "portrait-primary",
+  "lang": "fr",
+  "categories": ["shopping", "business"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Brelness - Tableau de bord boutique"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Catalogue",
+      "url": "/",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { Package, ClipboardList, TrendingUp, AlertTriangle, Star, Clock, CheckCircle2 } from "lucide-react";
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { useApp } from "../../context/AppContext";
@@ -90,9 +90,9 @@ export default function ShopDashboard() {
           <h1 className="text-gray-900 dark:text-white">Tableau de bord</h1>
           <p className="text-gray-500 dark:text-gray-400 text-sm mt-0.5">Bienvenue, {currentUser?.name} — {currentUser?.shopName || "Votre Boutique"}</p>
         </div>
-        <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-violet-50 dark:bg-violet-900/20 rounded-xl">
-          <div className="w-2 h-2 bg-violet-500 rounded-full animate-pulse" />
-          <span className="text-sm text-violet-700 dark:text-violet-400 font-medium">En ligne</span>
+        <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
+          <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
+          <span className="text-sm text-blue-700 dark:text-blue-400 font-medium">En ligne</span>
         </div>
       </div>
 
@@ -100,12 +100,12 @@ export default function ShopDashboard() {
       {(pendingRes.length > 0 || lowStockProducts.length > 0) && (
         <div className="space-y-2">
           {pendingRes.length > 0 && (
-            <div className="flex items-center gap-3 bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-800 rounded-xl px-4 py-3">
-              <Clock size={16} className="text-violet-500 flex-shrink-0" />
-              <p className="text-sm text-violet-700 dark:text-violet-400">
+            <div className="flex items-center gap-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl px-4 py-3">
+              <Clock size={16} className="text-blue-500 flex-shrink-0" />
+              <p className="text-sm text-blue-700 dark:text-blue-400">
                 <strong>{pendingRes.length}</strong> réservation(s) en attente de confirmation.
               </p>
-              <a href="/admin/reservations" className="ml-auto text-xs text-violet-600 dark:text-violet-400 hover:underline font-medium">Voir tout</a>
+              <a href="/admin/reservations" className="ml-auto text-xs text-blue-600 dark:text-blue-400 hover:underline font-medium">Voir tout</a>
             </div>
           )}
           {lowStockProducts.map(p => (
@@ -122,8 +122,8 @@ export default function ShopDashboard() {
       {/* KPI cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard icon={TrendingUp} label="Revenu total" value={`${totalRevenue.toLocaleString("fr")} FCFA`} sub="Revenu des résas complétées" bg="bg-emerald-100 dark:bg-emerald-900/30" color="text-emerald-600 dark:text-emerald-400" />
-        <StatCard icon={ClipboardList} label="Réservations" value={shopReservations.length} sub={`${pendingRes.length} en attente`} bg="bg-indigo-100 dark:bg-indigo-900/30" color="text-indigo-600 dark:text-indigo-400" />
-        <StatCard icon={Package} label="Total produits" value={shopProducts.length} sub={`${shopProducts.filter(p => p.status === "active").length} actifs`} bg="bg-violet-100 dark:bg-violet-900/30" color="text-violet-600 dark:text-violet-400" />
+        <StatCard icon={ClipboardList} label="Réservations" value={shopReservations.length} sub={`${pendingRes.length} en attente`} bg="bg-blue-100 dark:bg-blue-900/30" color="text-blue-600 dark:text-blue-400" />
+        <StatCard icon={Package} label="Total produits" value={shopProducts.length} sub={`${shopProducts.filter(p => p.status === "active").length} actifs`} bg="bg-blue-100 dark:bg-blue-900/30" color="text-blue-600 dark:text-blue-400" />
         <StatCard icon={Star} label="Note moyenne" value={shopProducts.length > 0 ? (shopProducts.reduce((s, p) => s + (p.rating || 0), 0) / shopProducts.length).toFixed(1) : "—"} sub={`${shopProducts.reduce((s, p) => s + (p.reviewCount || 0), 0)} avis`} bg="bg-amber-100 dark:bg-amber-900/30" color="text-amber-600 dark:text-amber-400" />
       </div>
 
@@ -166,7 +166,7 @@ export default function ShopDashboard() {
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
           <div className="px-5 py-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
             <h3 className="text-gray-900 dark:text-white">Réservations récentes</h3>
-            <a href="/admin/reservations" className="text-xs text-violet-600 dark:text-violet-400 hover:underline">Voir tout</a>
+            <a href="/admin/reservations" className="text-xs text-blue-600 dark:text-blue-400 hover:underline">Voir tout</a>
           </div>
           <div className="divide-y divide-gray-50 dark:divide-gray-700/50">
             {shopReservations.slice(0, 4).map(res => (
@@ -187,7 +187,7 @@ export default function ShopDashboard() {
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
           <div className="px-5 py-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
             <h3 className="text-gray-900 dark:text-white">Mes produits</h3>
-            <a href="/admin/products" className="text-xs text-violet-600 dark:text-violet-400 hover:underline">Gérer</a>
+            <a href="/admin/products" className="text-xs text-blue-600 dark:text-blue-400 hover:underline">Gérer</a>
           </div>
           <div className="divide-y divide-gray-50 dark:divide-gray-700/50">
             {shopProducts.slice(0, 4).map(prod => (
@@ -213,15 +213,15 @@ export default function ShopDashboard() {
       <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-700">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-gray-900 dark:text-white">Dernières notifications</h3>
-          <a href="/admin/notifications" className="text-xs text-violet-600 dark:text-violet-400 hover:underline">Voir tout</a>
+          <a href="/admin/notifications" className="text-xs text-blue-600 dark:text-blue-400 hover:underline">Voir tout</a>
         </div>
         <div className="space-y-3">
           {notifications.length === 0 ? (
             <p className="text-sm text-gray-500 py-4 text-center">Aucune notification à afficher.</p>
           ) : notifications.slice(0, 5).map(notif => (
-            <div key={notif.id} className={`flex items-start gap-3 p-3 rounded-xl border ${notif.isRead ? 'border-transparent' : 'border-violet-100 dark:border-violet-900/40 bg-violet-50/50 dark:bg-violet-900/10'}`}>
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-violet-100 dark:bg-violet-900/30">
-                {notif.type === "reservation" ? <ClipboardList size={14} className="text-violet-600 dark:text-violet-400" /> : <AlertTriangle size={14} className="text-gray-600 dark:text-gray-400" />}
+            <div key={notif.id} className={`flex items-start gap-3 p-3 rounded-xl border ${notif.isRead ? 'border-transparent' : 'border-blue-100 dark:border-blue-900/40 bg-blue-50/50 dark:bg-blue-900/10'}`}>
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-blue-100 dark:bg-blue-900/30">
+                {notif.type === "reservation" ? <ClipboardList size={14} className="text-blue-600 dark:text-blue-400" /> : <AlertTriangle size={14} className="text-gray-600 dark:text-gray-400" />}
               </div>
               <div className="flex-1 min-w-0">
                 <p className={`text-sm ${notif.isRead ? 'text-gray-700 dark:text-gray-300' : 'text-gray-900 dark:text-white font-medium'}`}>{notif.title}</p>

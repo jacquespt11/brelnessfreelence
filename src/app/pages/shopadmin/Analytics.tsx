@@ -8,23 +8,9 @@ import { useApp } from "../../context/AppContext";
 import api from "../../api";
 import { productReservationTrend, reservationTrend } from "../../data/mockData";
 
-const CONVERSION_DATA = [
-  { month: "Oct", views: 340, reservations: 68 },
-  { month: "Nov", views: 520, reservations: 91 },
-  { month: "Déc", views: 680, reservations: 115 },
-  { month: "Jan", views: 490, reservations: 98 },
-  { month: "Fév", views: 710, reservations: 134 },
-  { month: "Mar", views: 890, reservations: 178 },
-];
-
-const SOURCE_DATA = [
-  { name: "Instagram", value: 42, color: "#e1306c" },
-  { name: "Facebook", value: 28, color: "#1877f2" },
-  { name: "WhatsApp", value: 18, color: "#25d366" },
-  { name: "Lien direct", value: 12, color: "#6366f1" },
-];
 
 export default function ShopAnalytics() {
+  // Trigger Vite recompilation
   const { currentUser } = useApp();
   const [analytics, setAnalytics] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -52,8 +38,13 @@ export default function ShopAnalytics() {
 
   const trendData = analytics?.trends?.map((t: any) => ({
     day: new Date(t.date).toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric' }),
-    reservations: t.count
+    reservations: t.count,
+    revenu: t.revenue,
   })) || [];
+
+  const pieData = analytics?.salesByCategory || [
+    { name: "Vide", value: 1, color: "#e5e7eb" }
+  ];
 
   const handleExport = () => {
     if (!analytics) return;
@@ -81,7 +72,7 @@ export default function ShopAnalytics() {
         <div className="flex gap-2">
           <div className="flex bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-1">
             {(["week", "month", "year"] as const).map(p => (
-              <button key={p} onClick={() => setPeriod(p)} className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${period === p ? "bg-violet-600 text-white" : "text-gray-500 dark:text-gray-400 hover:text-gray-700"}`}>
+              <button key={p} onClick={() => setPeriod(p)} className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${period === p ? "bg-blue-600 text-white" : "text-gray-500 dark:text-gray-400 hover:text-gray-700"}`}>
                 {p === "week" ? "Semaine" : p === "month" ? "Mois" : "Année"}
               </button>
             ))}
@@ -95,10 +86,10 @@ export default function ShopAnalytics() {
       {/* KPI summary */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: "Vues totales (Démo)", value: "2 640", change: "+18%", positive: true },
-          { label: "Réservations", value: analytics?.totalReservations?.toString() || "0", change: "+12%", positive: true },
-          { label: "Revenus estimés", value: `${analytics?.revenue?.toLocaleString("fr") || 0} F`, change: "+2.1%", positive: true },
-          { label: "Note moyenne", value: "4.8★", change: "+0.3", positive: true },
+          { label: "Vues totales", value: analytics?.totalViews?.toLocaleString("fr") || "0", change: "-", positive: true },
+          { label: "Réservations totales", value: analytics?.totalReservations?.toString() || "0", change: "-", positive: true },
+          { label: "Revenus (Complétés)", value: `${analytics?.revenue?.toLocaleString("fr") || 0} F`, change: "-", positive: true },
+          { label: "Taux d'achèvement", value: `${analytics?.completionRate || 0}%`, change: "-", positive: true },
         ].map(kpi => (
           <div key={kpi.label} className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-700">
             <p className="text-xs text-gray-500 dark:text-gray-400">{kpi.label}</p>
@@ -112,12 +103,12 @@ export default function ShopAnalytics() {
 
       {/* Charts row 1 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {/* Conversion */}
+        {/* Revenus vs Réservations */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-700">
-          <h3 className="text-gray-900 dark:text-white mb-1">Vues vs Réservations</h3>
-          <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">Taux de conversion mensuel</p>
+          <h3 className="text-gray-900 dark:text-white mb-1">Revenus vs Réservations</h3>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">Tendances du Revenu de Réservations Complétées</p>
           <ResponsiveContainer width="100%" height={220}>
-            <AreaChart data={CONVERSION_DATA}>
+            <AreaChart data={trendData}>
               <defs>
                 <linearGradient id="viewGrad" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#e0e7ff" stopOpacity={0.8} />
@@ -129,41 +120,41 @@ export default function ShopAnalytics() {
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" className="stroke-gray-100 dark:stroke-gray-700" />
-              <XAxis dataKey="month" tick={{ fill: "#9ca3af", fontSize: 11 }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fill: "#9ca3af", fontSize: 11 }} axisLine={false} tickLine={false} />
+              <XAxis dataKey="day" tick={{ fill: "#9ca3af", fontSize: 11 }} axisLine={false} tickLine={false} />
+              <YAxis yAxisId="left" tick={{ fill: "#9ca3af", fontSize: 11 }} axisLine={false} tickLine={false} />
+              <YAxis yAxisId="right" orientation="right" tick={{ fill: "#9ca3af", fontSize: 11 }} axisLine={false} tickLine={false} />
               <Tooltip contentStyle={{ background: "#1f2937", border: "none", borderRadius: "0.75rem", color: "#f9fafb" }} />
               <Legend wrapperStyle={{ fontSize: "12px" }} />
-              <Area type="monotone" dataKey="views" stroke="#a5b4fc" fill="url(#viewGrad)" name="Vues" />
-              <Area type="monotone" dataKey="reservations" stroke="#7c3aed" fill="url(#resGrad2)" name="Réservations" />
+              <Area yAxisId="left" type="monotone" dataKey="revenu" stroke="#a5b4fc" fill="url(#viewGrad)" name="Revenus (F)" />
+              <Area yAxisId="right" type="monotone" dataKey="reservations" stroke="#7c3aed" fill="url(#resGrad2)" name="Volume" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
 
-        {/* Traffic source */}
+        {/* Sales by Category */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-700">
-          <h3 className="text-gray-900 dark:text-white mb-1">Sources de trafic</h3>
-          <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">D'où viennent vos visiteurs</p>
+          <h3 className="text-gray-900 dark:text-white mb-1">Ventes par Type</h3>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">Répartition des ventes (Produits vs Services)</p>
           <div className="flex items-center gap-4">
             <ResponsiveContainer width="50%" height={160}>
               <PieChart>
-                <Pie data={SOURCE_DATA} dataKey="value" innerRadius={45} outerRadius={70} paddingAngle={3}>
-                  {SOURCE_DATA.map((entry, i) => <Cell key={i} fill={entry.color} />)}
+                <Pie data={pieData} dataKey="value" innerRadius={45} outerRadius={70} paddingAngle={3}>
+                  {pieData.map((entry: any, i: number) => <Cell key={i} fill={entry.color} />)}
                 </Pie>
                 <Tooltip contentStyle={{ background: "#1f2937", border: "none", borderRadius: "0.75rem", color: "#f9fafb" }} />
               </PieChart>
             </ResponsiveContainer>
             <div className="flex-1 space-y-2">
-              {SOURCE_DATA.map(item => (
+              {pieData.map((item: any) => (
                 <div key={item.name} className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full" style={{ background: item.color }} />
                     <span className="text-xs text-gray-600 dark:text-gray-400">{item.name}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-16 h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
-                      <div className="h-full rounded-full" style={{ width: `${item.value}%`, background: item.color }} />
-                    </div>
-                    <span className="text-xs font-medium text-gray-900 dark:text-white w-6 text-right">{item.value}%</span>
+                    <span className="text-xs font-medium text-gray-900 dark:text-white w-6 text-right">
+                      {analytics?.revenue ? Math.round((item.value / (pieData.reduce((a:any, b:any)=>a+b.value, 0))) * 100) : 0}%
+                    </span>
                   </div>
                 </div>
               ))}
@@ -216,8 +207,8 @@ export default function ShopAnalytics() {
             { label: "Analytics complet", format: "PDF" },
           ].map(item => (
             <button key={item.label} className="flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group">
-              <div className="w-10 h-10 rounded-xl bg-violet-50 dark:bg-violet-900/20 flex items-center justify-center group-hover:bg-violet-100 transition-colors">
-                <Download size={18} className="text-violet-600 dark:text-violet-400" />
+              <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center group-hover:bg-blue-100 transition-colors">
+                <Download size={18} className="text-blue-600 dark:text-blue-400" />
               </div>
               <div className="text-center">
                 <p className="text-xs font-medium text-gray-900 dark:text-white">{item.label}</p>

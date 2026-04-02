@@ -50,17 +50,17 @@ export default function Login() {
         </div>
         <div className="relative z-10 p-12">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
-              <Store className="text-indigo-600" size={22} />
+            <div className="w-12 h-12 rounded-xl flex items-center justify-center overflow-hidden">
+              <img src="/logoBrelness.png" alt="Brelness" className="w-full h-full object-cover" />
             </div>
-            <span className="text-white text-2xl font-bold tracking-tight">Brelness</span>
+            <span className="text-white text-3xl font-bold tracking-tight">Brelness</span>
           </div>
         </div>
         <div className="relative z-10 px-12 pb-12">
           <h1 className="text-white mb-4" style={{ fontSize: "2.5rem", fontWeight: 700, lineHeight: 1.2 }}>
             Gérez vos boutiques en toute simplicité
           </h1>
-          <p className="text-indigo-200 text-lg mb-8">
+          <p className="text-blue-200 text-lg mb-8">
             La plateforme SaaS multi-boutiques pour la gestion de réservations, produits et licences.
           </p>
           <div className="grid grid-cols-3 gap-4">
@@ -71,7 +71,7 @@ export default function Login() {
             ].map(stat => (
               <div key={stat.label} className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center">
                 <div className="text-white text-2xl font-bold">{stat.value}</div>
-                <div className="text-indigo-200 text-sm">{stat.label}</div>
+                <div className="text-blue-200 text-sm">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -83,10 +83,10 @@ export default function Login() {
         <div className="w-full max-w-md">
           {/* Mobile logo */}
           <div className="flex lg:hidden items-center justify-center gap-2 mb-8">
-            <div className="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center">
-              <Store className="text-white" size={20} />
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden">
+              <img src="/logoBrelness.png" alt="Brelness" className="w-full h-full object-cover" />
             </div>
-            <span className="text-gray-900 dark:text-white text-xl font-bold">Brelness</span>
+            <span className="text-gray-900 dark:text-white text-2xl font-bold tracking-tight">Brelness</span>
           </div>
 
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
@@ -103,7 +103,7 @@ export default function Login() {
                   key={value}
                   onClick={() => { setRole(value); setEmail(""); setPassword(""); setError(""); }}
                   className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm transition-all ${role === value
-                    ? "bg-white dark:bg-gray-600 text-indigo-600 dark:text-indigo-400 shadow-sm font-semibold"
+                    ? "bg-white dark:bg-gray-600 text-blue-600 dark:text-blue-400 shadow-sm font-semibold"
                     : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
                     }`}
                 >
@@ -119,7 +119,7 @@ export default function Login() {
                 <input
                   type="email" value={email} onChange={e => setEmail(e.target.value)} required
                   placeholder={role === "superadmin" ? "super@brelness.com" : "admin@demoshop.com"}
-                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                 />
               </div>
               <div>
@@ -128,7 +128,7 @@ export default function Login() {
                   <input
                     type={showPass ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} required
                     placeholder="••••••••"
-                    className="w-full px-4 py-2.5 pr-10 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                    className="w-full px-4 py-2.5 pr-10 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                   />
                   <button type="button" onClick={() => setShowPass(s => !s)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
                     {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -145,7 +145,7 @@ export default function Login() {
 
               <button
                 type="submit" disabled={loading}
-                className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
+                className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
               >
                 <span
                   className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
@@ -156,13 +156,13 @@ export default function Login() {
             </form>
 
             <div className="mt-4 text-center">
-              <button onClick={fillDemo} className="text-xs text-indigo-500 hover:text-indigo-700 underline">
+              <button onClick={fillDemo} className="text-xs text-blue-500 hover:text-blue-700 underline">
                 Remplir avec les identifiants de démo
               </button>
             </div>
 
-            <div className="mt-6 p-3 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg">
-              <p className="text-xs text-indigo-600 dark:text-indigo-400 font-medium mb-1">Comptes de démonstration :</p>
+            <div className="mt-6 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+              <p className="text-xs text-blue-600 dark:text-blue-400 font-medium mb-1">Comptes de démonstration :</p>
               <p className="text-xs text-gray-600 dark:text-gray-400">Admin Boutique : admin@demoshop.com / shopadmin123</p>
               <p className="text-xs text-gray-600 dark:text-gray-400">Super Admin : super@brelness.com / superadmin123</p>
             </div>

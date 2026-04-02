@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Search, CheckCircle2, XCircle, Clock, ClipboardList, ChevronDown, MessageSquare } from "lucide-react";
+import { Search, CheckCircle2, XCircle, Clock, ClipboardList, ChevronDown, MessageSquare, Tag } from "lucide-react";
 import api from "../../api";
 import { useApp } from "../../context/AppContext";
 
@@ -54,14 +54,27 @@ function DetailModal({ res, onClose, onUpdate }: { res: any; onClose: () => void
             <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">Produit</p>
             <div className="flex items-center justify-between">
               <p className="text-sm font-medium text-gray-900 dark:text-white">{res.product?.name || res.productName}</p>
-              <span className="text-sm font-bold text-violet-600 dark:text-violet-400">× {res.quantity}</span>
+              <span className="text-sm font-bold text-blue-600 dark:text-blue-400">× {res.quantity}</span>
             </div>
+            {(res.totalAmount !== null && res.totalAmount !== undefined) && (
+              <div className="flex items-center justify-between mt-2 pt-2 border-t border-gray-200 dark:border-gray-600">
+                <p className="text-sm text-gray-500 dark:text-gray-400">Total payé/à payer</p>
+                <div className="text-right">
+                  <span className="text-sm font-bold text-gray-900 dark:text-white">{res.totalAmount.toLocaleString("fr")} FCFA</span>
+                  {res.discountCode && (
+                    <p className="text-xs text-emerald-600 flex items-center gap-1 justify-end mt-0.5">
+                      <Tag size={10} /> Promo: {res.discountCode}
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Notes */}
           <div>
             <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block flex items-center gap-1.5"><MessageSquare size={13} />Notes internes</label>
-            <textarea value={notes} onChange={e => setNotes(e.target.value)} rows={2} placeholder="Ajouter une note…" className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 resize-none" />
+            <textarea value={notes} onChange={e => setNotes(e.target.value)} rows={2} placeholder="Ajouter une note…" className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" />
           </div>
 
           {/* Cancel */}
@@ -97,14 +110,14 @@ function DetailModal({ res, onClose, onUpdate }: { res: any; onClose: () => void
             </button>
             <button
               onClick={() => { onUpdate(res.id, nextStatus!, notes); onClose(); }}
-              className={`px-4 py-2 rounded-lg text-sm bg-violet-600 hover:bg-violet-700 text-white transition-colors flex items-center gap-2 ${!showCancel && nextStatus ? "" : "hidden"}`}
+              className={`px-4 py-2 rounded-lg text-sm bg-blue-600 hover:bg-blue-700 text-white transition-colors flex items-center gap-2 ${!showCancel && nextStatus ? "" : "hidden"}`}
             >
               <CheckCircle2 size={14} />
               {`Passer à "${nextStatus}"`}
             </button>
             <button
               onClick={() => { onUpdate(res.id, res.status, notes); onClose(); }}
-              className={`px-4 py-2 rounded-lg text-sm bg-violet-600 hover:bg-violet-700 text-white transition-colors ${!showCancel && !nextStatus ? "" : "hidden"}`}
+              className={`px-4 py-2 rounded-lg text-sm bg-blue-600 hover:bg-blue-700 text-white transition-colors ${!showCancel && !nextStatus ? "" : "hidden"}`}
             >
               Sauvegarder notes
             </button>
@@ -116,7 +129,7 @@ function DetailModal({ res, onClose, onUpdate }: { res: any; onClose: () => void
 }
 
 export default function ShopReservations() {
-  const { currentUser } = useApp();
+  const { currentUser, setNotificationCount } = useApp();
   const [resList, setResList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -214,9 +227,9 @@ export default function ShopReservations() {
       <div className="flex flex-wrap gap-3">
         <div className="relative flex-1 min-w-48">
           <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Rechercher un client ou produit…" className="w-full pl-9 pr-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" />
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Rechercher un client ou produit…" className="w-full pl-9 pr-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
-        <select value={filterStatus} onChange={e => setFilterStatus(e.target.value as any)} className="px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
+        <select value={filterStatus} onChange={e => setFilterStatus(e.target.value as any)} className="px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
           <option value="all">Tous les statuts</option>
           <option value="En attente">En attente</option>
           <option value="Confirmée">Confirmée</option>
@@ -231,7 +244,7 @@ export default function ShopReservations() {
           <table className="w-full">
             <thead>
               <tr className="border-b border-gray-100 dark:border-gray-700 bg-gray-50">
-                {["Client", "Produit", "Qté", "Date", "Statut", "Actions"].map(h => (
+                {["Client", "Produit", "Qté / Total", "Date", "Statut", "Actions"].map(h => (
                   <th key={h} className="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{h}</th>
                 ))}
               </tr>
@@ -248,7 +261,12 @@ export default function ShopReservations() {
                     </div>
                   </td>
                   <td className="px-5 py-3.5 text-sm text-gray-600 dark:text-gray-400">{res.product?.name || res.productName}</td>
-                  <td className="px-5 py-3.5 text-sm font-medium text-gray-900 dark:text-white">×{res.quantity}</td>
+                  <td className="px-5 py-3.5">
+                    <span className="text-sm font-medium text-gray-900 dark:text-white block">×{res.quantity}</span>
+                    {res.totalAmount !== null && res.totalAmount !== undefined && (
+                      <span className="text-xs text-blue-600 font-bold">{res.totalAmount.toLocaleString("fr")} F</span>
+                    )}
+                  </td>
                   <td className="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">
                     {new Date(res.createdAt).toLocaleDateString("fr", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
                   </td>
@@ -258,7 +276,7 @@ export default function ShopReservations() {
                   <td className="px-5 py-3.5">
                     <button
                       onClick={e => { e.stopPropagation(); setSelectedRes(res); }}
-                      className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs bg-violet-50 dark:bg-violet-900/20 text-violet-600 dark:text-violet-400 hover:bg-violet-100 transition-colors"
+                      className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:bg-blue-100 transition-colors"
                     >
                       <ChevronDown size={12} />Détails
                     </button>

@@ -1,0 +1,30 @@
+/* ─── Brelness Global Font: Inter ─────────────────────────────────── */
+/* Inter est chargé via Google Fonts dans index.html pour une performance optimale */
+
+*, *::before, *::after {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Scrollbar Brelness Blue ──────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #2563EB;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #1D4ED8;
+}
+
+/* ─── Selection highlight ──────────────────────────────────────────── */
+::selection {
+  background-color: rgba(37, 99, 235, 0.25);
+  color: inherit;
+}

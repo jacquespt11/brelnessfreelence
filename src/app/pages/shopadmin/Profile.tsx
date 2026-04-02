@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+﻿import { useState, useEffect, useRef } from "react";
 import { Save, Camera, MapPin, Phone, Mail, Facebook, Instagram, Twitter, Globe, Store, XCircle } from "lucide-react";
 import { useApp } from "../../context/AppContext";
 import api from "../../api";
@@ -43,7 +43,15 @@ export default function ShopProfile() {
     fetchShop();
   }, [currentUser]);
 
+  const isReadOnly = shop?.license && 
+    (shop.license.status === 'GRACE_PERIOD' || shop.license.status === 'EXPIRED') &&
+    !shop.isManualOverride;
+
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'logo'|'banner'|'heroImages', index?: number) => {
+    if (isReadOnly) {
+      alert("Boutique en mode lecture seule. Action non autorisée.");
+      return;
+    }
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -113,7 +121,7 @@ export default function ShopProfile() {
   if (loading) {
     return (
       <div className="p-12 flex items-center justify-center">
-        <span className="w-8 h-8 border-4 border-violet-600 border-t-transparent rounded-full animate-spin"></span>
+        <span className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></span>
       </div>
     );
   }
@@ -182,7 +190,7 @@ export default function ShopProfile() {
             <button
               key={id}
               onClick={() => setActiveTab(id)}
-              className={`px-4 py-2.5 text-sm font-medium rounded-t-xl transition-colors border-b-2 ${activeTab === id ? "text-violet-600 dark:text-violet-400 border-violet-500 bg-violet-50 dark:bg-violet-900/20" : "text-gray-500 dark:text-gray-400 border-transparent hover:text-gray-700 dark:hover:text-gray-200"}`}
+              className={`px-4 py-2.5 text-sm font-medium rounded-t-xl transition-colors border-b-2 ${activeTab === id ? "text-blue-600 dark:text-blue-400 border-blue-500 bg-blue-50 dark:bg-blue-900/20" : "text-gray-500 dark:text-gray-400 border-transparent hover:text-gray-700 dark:hover:text-gray-200"}`}
             >
               {label}
             </button>
@@ -195,12 +203,12 @@ export default function ShopProfile() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Nom de la boutique</label>
-                  <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" />
+                  <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
                 </div>
                 <div>
                   <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Sous-domaine (URL)</label>
                   <div className="flex items-center gap-2">
-                    <input value={form.slug} onChange={e => setForm(f => ({ ...f, slug: e.target.value.toLowerCase().replace(/[^a-z0-0]/g, "-") }))} className="flex-1 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" />
+                    <input value={form.slug} onChange={e => setForm(f => ({ ...f, slug: e.target.value.toLowerCase().replace(/[^a-z0-0]/g, "-") }))} className="flex-1 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
                     <span className="text-sm text-gray-400">.brelness.com</span>
                   </div>
                 </div>
@@ -208,11 +216,11 @@ export default function ShopProfile() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Titre d'Accueil (Section Héro)</label>
-                  <input value={form.heroTitle} onChange={e => setForm(f => ({ ...f, heroTitle: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="Ex: Le meilleur de nos produits..." />
+                  <input value={form.heroTitle} onChange={e => setForm(f => ({ ...f, heroTitle: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ex: Le meilleur de nos produits..." />
                 </div>
                 <div>
                   <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Catégorie</label>
-                  <input list="categories" value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="ex: Startup, PME, etc..." />
+                  <input list="categories" value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="ex: Startup, PME, etc..." />
                   <datalist id="categories">
                     {CATEGORIES.map(c => <option key={c} value={c} />)}
                   </datalist>
@@ -220,14 +228,14 @@ export default function ShopProfile() {
               </div>
               <div>
                 <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Type d'Entreprise</label>
-                <select value={form.businessType} onChange={e => setForm(f => ({ ...f, businessType: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
+                <select value={form.businessType} onChange={e => setForm(f => ({ ...f, businessType: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                   <option value="produits">Vente de Produits</option>
                   <option value="services">Vente de Services</option>
                 </select>
               </div>
               <div>
                 <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Description</label>
-                <textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} rows={4} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 resize-none" />
+                <textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} rows={4} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" />
               </div>
             </div>
           )}
@@ -236,15 +244,15 @@ export default function ShopProfile() {
             <div className="space-y-4">
               <div>
                 <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 flex items-center gap-1.5 block"><MapPin size={13} />Adresse</label>
-                <input value={form.address} onChange={e => setForm(f => ({ ...f, address: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" />
+                <input value={form.address} onChange={e => setForm(f => ({ ...f, address: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
               </div>
               <div>
                 <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 flex items-center gap-1.5 block"><Phone size={13} />Téléphone</label>
-                <input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" />
+                <input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
               </div>
               <div>
                 <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 flex items-center gap-1.5 block"><Mail size={13} />Email</label>
-                <input type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" />
+                <input type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
               </div>
             </div>
           )}
@@ -267,7 +275,7 @@ export default function ShopProfile() {
                     value={form[key as keyof typeof form]}
                     onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))}
                     placeholder={placeholder}
-                    className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+                    className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               ))}
@@ -310,7 +318,7 @@ export default function ShopProfile() {
                 <div className="flex items-center justify-between mb-2">
                   <label className="text-sm text-gray-700 dark:text-gray-300 block">Images du slider d'accueil (Max 3)</label>
                   {form.heroImages.length < 3 && (
-                    <label className="text-xs text-violet-600 dark:text-violet-400 cursor-pointer hover:underline flex items-center gap-1">
+                    <label className="text-xs text-blue-600 dark:text-blue-400 cursor-pointer hover:underline flex items-center gap-1">
                       <Camera size={13} />
                       Ajouter
                       <input type="file" accept="image/*" className="hidden" onChange={e => handleFileUpload(e, 'heroImages')} />
@@ -354,7 +362,7 @@ export default function ShopProfile() {
         <div className="px-6 py-4 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between">
           {saved && <p className="text-sm text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5"><Save size={14} />Modifications enregistrées !</p>}
           {saveError && <p className="text-sm text-red-500 flex-1 mr-4">{saveError}</p>}
-          <button onClick={handleSave} disabled={saving} className="ml-auto flex items-center gap-2 px-5 py-2.5 bg-violet-600 hover:bg-violet-700 disabled:opacity-50 text-white rounded-xl text-sm font-medium transition-colors">
+          <button onClick={handleSave} disabled={saving || isReadOnly} className="ml-auto flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-xl text-sm font-medium transition-colors">
             {saving ? <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span> : <Save size={15} />}
             <span>{saving ? "Enregistrement..." : "Enregistrer les modifications"}</span>
           </button>

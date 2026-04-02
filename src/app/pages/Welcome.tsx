@@ -1,18 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { ArrowRight, ShoppingBag, BarChart3, Users, Zap, CalendarCheck, ShieldCheck } from "lucide-react";
+import { ArrowRight, ShoppingBag, BarChart3, Users, CalendarCheck, ShieldCheck, Sparkles } from "lucide-react";
 
 export default function Welcome() {
   const navigate = useNavigate();
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  useEffect(() => {
-    // Auto slide for the carousel
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev === 0 ? 1 : 0));
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
 
   const finishWelcome = () => {
     localStorage.setItem("hasSeenWelcome", "true");
@@ -20,122 +11,119 @@ export default function Welcome() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 flex flex-col font-sans selection:bg-blue-100 selection:text-blue-900">
+    <div className="min-h-screen bg-[#0B1120] text-gray-100 flex flex-col font-sans selection:bg-blue-500/30 selection:text-white relative overflow-hidden">
       
-      {/* Section 1: Logo et Titre */}
-      <header className="pt-8 pb-4 px-6 md:px-12 max-w-7xl mx-auto w-full flex items-center gap-3">
-        <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/20">
-          <ShoppingBag size={20} className="text-white" />
-        </div>
-        <h1 className="text-2xl font-black tracking-tight text-gray-900 dark:text-white">Brelness</h1>
-      </header>
+      {/* Dynamic Mesh Background */}
+      <div className="absolute top-0 inset-x-0 h-screen overflow-hidden pointer-events-none">
+        <div className="absolute -top-[40%] -left-[10%] w-[70%] h-[70%] rounded-full bg-blue-700/20 blur-[120px] mix-blend-screen animate-pulse" style={{ animationDuration: '8s' }}></div>
+        <div className="absolute top-[20%] -right-[20%] w-[60%] h-[60%] rounded-full bg-purple-600/20 blur-[130px] mix-blend-screen animate-pulse" style={{ animationDuration: '10s' }}></div>
+        <div className="absolute -bottom-[40%] left-[20%] w-[80%] h-[80%] rounded-full bg-indigo-800/20 blur-[150px] mix-blend-screen animate-pulse" style={{ animationDuration: '12s' }}></div>
+      </div>
 
-      {/* Main Content Area */}
-      <main className="flex-1 w-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col">
-        
-        {/* Section 2: Carousel & Dark Background */}
-        <section className="mt-[15px] relative rounded-[32px] overflow-hidden bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-sm">
-          <div className="relative h-[350px] md:h-[400px] w-full flex items-center">
-            
-            {/* Slide 1 */}
-            <div className={`absolute inset-0 px-8 md:px-16 flex flex-col justify-center transition-opacity duration-700 ease-in-out ${currentSlide === 0 ? "opacity-100 z-10" : "opacity-0 z-0"}`}>
-              <div className="max-w-2xl text-left">
-                <span className="inline-block py-1 px-3 rounded-full bg-blue-100/50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 text-sm font-bold tracking-wide mb-4 border border-blue-200 dark:border-blue-500/20">
-                  Bienvenue à bord
-                </span>
-                <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight">
-                  Prêt à booster votre business ?
-                </h2>
-                <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
-                  Découvrez une nouvelle manière de gérer vos ventes, vos clients et vos réservations. Brelness a été conçu pour simplifier votre quotidien et accélérer votre croissance.
-                </p>
-              </div>
-            </div>
-
-            {/* Slide 2 */}
-            <div className={`absolute inset-0 px-8 md:px-16 flex flex-col justify-center transition-opacity duration-700 ease-in-out ${currentSlide === 1 ? "opacity-100 z-10" : "opacity-0 z-0"}`}>
-              <div className="max-w-2xl text-left">
-                <span className="inline-block py-1 px-3 rounded-full bg-blue-100/50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 text-sm font-bold tracking-wide mb-4 border border-blue-200 dark:border-blue-500/20">
-                  Comment ça marche
-                </span>
-                <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight">
-                  La puissance de <span className="text-blue-600">Brelness</span>
-                </h2>
-                <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
-                  Créez votre boutique en quelques clics, personnalisez votre catalogue, et commencez à accepter des réservations instantanément. Suivez vos revenus en temps réel et fidélisez vos clients avec nos outils intégrés.
-                </p>
-              </div>
-            </div>
-
-            {/* Carousel Indicators */}
-            <div className="absolute bottom-8 left-8 md:left-16 flex gap-2 z-20">
-              <button onClick={() => setCurrentSlide(0)} className={`w-10 h-1.5 rounded-full transition-all ${currentSlide === 0 ? "bg-blue-600" : "bg-gray-300 dark:bg-gray-700"}`} />
-              <button onClick={() => setCurrentSlide(1)} className={`w-10 h-1.5 rounded-full transition-all ${currentSlide === 1 ? "bg-blue-600" : "bg-gray-300 dark:bg-gray-700"}`} />
-            </div>
+      <div className="relative z-10 flex flex-col min-h-screen">
+        {/* Header */}
+        <header className="pt-8 pb-4 px-6 md:px-12 max-w-7xl mx-auto w-full flex items-center gap-3 animate-in fade-in slide-in-from-top-8 duration-700">
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden">
+             <img src="/logoBrelness.png" alt="Brelness" className="w-full h-full object-cover" />
           </div>
-        </section>
+          <h1 className="text-2xl font-black tracking-tight text-white">Brelness</h1>
+        </header>
 
-        {/* Section 3: Features & Call to Action */}
-        <section className="mt-16 mb-24">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            
-            <div className="p-6 rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-              <div className="w-12 h-12 bg-blue-50 dark:bg-blue-900/20 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                <ShoppingBag size={24} className="text-blue-600 dark:text-blue-400" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Boutique en ligne</h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Un catalogue digital sublime pour présenter vos produits et services au monde entier.</p>
-            </div>
-
-            <div className="p-6 rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-              <div className="w-12 h-12 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                <CalendarCheck size={24} className="text-emerald-600 dark:text-emerald-400" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Réservations 24/7</h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Acceptez vos commandes et prises de rendez-vous jour et nuit, sans effort.</p>
-            </div>
-
-            <div className="p-6 rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-              <div className="w-12 h-12 bg-amber-50 dark:bg-amber-900/20 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                <Users size={24} className="text-amber-600 dark:text-amber-400" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Fidélisation ciblée</h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Suivez précisément vos clients, leurs habitudes et récompensez les plus fidèles.</p>
-            </div>
-
-            <div className="p-6 rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-              <div className="w-12 h-12 bg-purple-50 dark:bg-purple-900/20 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                <BarChart3 size={24} className="text-purple-600 dark:text-purple-400" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Statistiques clés</h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Visualisez d'un coup d'œil vos revenus, vos visites et votre croissance mensuelle.</p>
-            </div>
-
+        {/* Hero Section */}
+        <main className="flex-1 w-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-center justify-center text-center mt-12 md:mt-24">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-bold tracking-wide mb-8 animate-in fade-in zoom-in duration-500">
+            <Sparkles size={16} /> Brelness O.S 2.0 est arrivé
           </div>
+          
+          <h2 className="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-gray-500 mb-6 leading-tight tracking-tight max-w-4xl animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150">
+            La plateforme totale pour gérer votre business.
+          </h2>
+          
+          <p className="text-lg md:text-xl text-gray-400 leading-relaxed font-medium max-w-2xl mb-12 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300">
+            Boutique en ligne, paiements, calendriers et statistiques intelligentes. Tout au même endroit pour révolutionner vos ventes.
+          </p>
 
-          <div className="flex flex-col items-center justify-center text-center mt-8">
+          <div className="flex flex-col sm:flex-row gap-4 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-500">
             <button 
               onClick={finishWelcome}
-              className="group flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-black hover:shadow-2xl hover:shadow-gray-900/20 dark:hover:bg-gray-100 transition-all active:scale-95"
+              className="group flex items-center justify-center gap-3 bg-white text-gray-900 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-gray-100 transition-all hover:scale-105 active:scale-95 shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]"
             >
-              Commencer maintenant
+              Démarrer l'expérience
               <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </button>
-            <p className="text-sm text-gray-500 mt-4 flex items-center gap-1.5"><ShieldCheck size={16} /> Configuration en 2 minutes chrono.</p>
+            <a href="#features" className="flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 text-white px-8 py-4 rounded-2xl font-bold text-lg border border-white/10 transition-all">
+              Découvrir les atouts
+            </a>
+          </div>
+
+          <p className="text-sm text-gray-500 mt-6 flex items-center gap-1.5 animate-in fade-in duration-1000 delay-700">
+            <ShieldCheck size={16} /> Configuration terminée en 2 minutes chrono.
+          </p>
+        </main>
+
+        {/* Bento Grid Features */}
+        <section id="features" className="w-full max-w-7xl mx-auto px-6 md:px-12 py-24 z-10">
+          <div className="text-center mb-16">
+            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">Un écosystème surpuissant</h3>
+            <p className="text-gray-400 max-w-2xl mx-auto">Pensé pour les PME modernes, Brelness regroupe des outils haut de gamme dans une interface cristalline.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[250px]">
+            {/* Bento Item 1 - Large */}
+            <div className="md:col-span-2 rounded-[32px] p-8 bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 relative overflow-hidden group hover:border-blue-500/50 transition-colors">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/20 rounded-full blur-[80px] -mr-20 -mt-20 group-hover:bg-blue-500/30 transition-colors"></div>
+              <div className="relative z-10 w-14 h-14 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-6">
+                <ShoppingBag size={28} className="text-blue-400" />
+              </div>
+              <h4 className="text-2xl font-bold text-white mb-3">Vitrine Numérique</h4>
+              <p className="text-gray-400 text-lg leading-relaxed max-w-md">Propulsez vos produits et services avec un catalogue ultra-rapide doté de filtres avancés et d'une esthétique prémium.</p>
+            </div>
+
+            {/* Bento Item 2 */}
+            <div className="rounded-[32px] p-8 bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 relative overflow-hidden group hover:border-emerald-500/50 transition-colors">
+              <div className="absolute bottom-0 right-0 w-40 h-40 bg-emerald-500/20 rounded-full blur-[60px] -mr-10 -mb-10 group-hover:bg-emerald-500/30 transition-colors"></div>
+              <div className="relative z-10 w-12 h-12 bg-emerald-500/20 rounded-2xl flex items-center justify-center mb-4">
+                <CalendarCheck size={24} className="text-emerald-400" />
+              </div>
+              <h4 className="text-xl font-bold text-white mb-2">Réservations 24/7</h4>
+              <p className="text-gray-400">Automatisez la prise de rendez-vous avec gestion des disponibilités en temps réel.</p>
+            </div>
+
+            {/* Bento Item 3 */}
+            <div className="rounded-[32px] p-8 bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 relative overflow-hidden group hover:border-purple-500/50 transition-colors">
+              <div className="absolute top-0 left-0 w-40 h-40 bg-purple-500/20 rounded-full blur-[60px] -ml-10 -mt-10 group-hover:bg-purple-500/30 transition-colors"></div>
+              <div className="relative z-10 w-12 h-12 bg-purple-500/20 rounded-2xl flex items-center justify-center mb-4">
+                <BarChart3 size={24} className="text-purple-400" />
+              </div>
+              <h4 className="text-xl font-bold text-white mb-2">Analytics Poussées</h4>
+              <p className="text-gray-400">Suivez la performance avec des KPI précis : revenus, tendances et taux d'achèvement.</p>
+            </div>
+
+            {/* Bento Item 4 - Wide */}
+            <div className="md:col-span-2 rounded-[32px] p-8 bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 relative overflow-hidden group hover:border-amber-500/50 transition-colors flex flex-col justify-end">
+              <div className="absolute bottom-0 left-1/4 w-full h-32 bg-amber-500/20 rounded-full blur-[80px] -mb-16 group-hover:bg-amber-500/30 transition-colors"></div>
+              <div className="relative z-10 flex items-center gap-6">
+                <div className="w-16 h-16 bg-amber-500/20 rounded-2xl flex items-center justify-center shrink-0">
+                  <Users size={32} className="text-amber-400" />
+                </div>
+                <div>
+                  <h4 className="text-2xl font-bold text-white mb-2">Fidélisation Instantanée</h4>
+                  <p className="text-gray-400 text-lg">Suivez les habitudes et récompensez les clients avec des coupons de réduction exclusifs depuis un CRM intégré.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
-      </main>
-
-      {/* Footer */}
-      <footer className="border-t border-gray-100 dark:border-gray-800 py-8 text-center text-gray-500 dark:text-gray-400 text-sm bg-gray-50 dark:bg-gray-900/50">
-        <div className="flex items-center justify-center gap-2 mb-2">
-          <ShoppingBag size={14} />
-          <span className="font-bold tracking-widest text-gray-900 dark:text-white uppercase text-xs">Brelness O.S</span>
-        </div>
-        <p>© {new Date().getFullYear()} propulsé par Brelness. Tous droits réservés.</p>
-      </footer>
-
+        {/* Footer */}
+        <footer className="border-t border-white/10 py-8 text-center text-gray-500 text-sm bg-black/50 z-10 w-full mt-auto">
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <img src="/logoBrelness.png" alt="Brelness" className="w-4 h-4 object-contain opacity-50 grayscale" />
+            <span className="font-bold tracking-widest text-white uppercase text-xs">Brelness O.S</span>
+          </div>
+          <p>© {new Date().getFullYear()} propulsé par Brelness. Sécurisé & Performant.</p>
+        </footer>
+      </div>
     </div>
   );
 }

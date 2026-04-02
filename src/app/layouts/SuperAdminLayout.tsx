@@ -3,7 +3,7 @@ import { Outlet, NavLink, useNavigate } from "react-router";
 import { useApp } from "../context/AppContext";
 import {
   Store, LayoutDashboard, Building2, Users, Key, Bell,
-  Settings, LogOut, ChevronLeft, ChevronRight, Sun, Moon, Menu, X
+  Settings, LogOut, ChevronLeft, ChevronRight, Sun, Moon, Menu, X, LifeBuoy
 } from "lucide-react";
 
 const navItems = [
@@ -11,6 +11,7 @@ const navItems = [
   { to: "/superadmin/shops", label: "Boutiques", icon: Building2 },
   { to: "/superadmin/admins", label: "Administrateurs", icon: Users },
   { to: "/superadmin/licenses", label: "Licences", icon: Key },
+  { to: "/superadmin/tickets", label: "Tickets Support", icon: LifeBuoy },
   { to: "/superadmin/notifications", label: "Notifications", icon: Bell },
   { to: "/superadmin/settings", label: "Paramètres", icon: Settings },
 ];
@@ -26,19 +27,19 @@ export default function SuperAdminLayout() {
   const SidebarContent = ({ mobile = false }) => (
     <div className="flex flex-col h-full">
       {/* Logo */}
-      <div className={`flex items-center ${collapsed && !mobile ? "justify-center px-3" : "gap-3 px-5"} h-16 border-b border-indigo-700/50`}>
-        <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center flex-shrink-0">
-          <Store size={18} className="text-indigo-600" />
+      <div className={`flex items-center ${collapsed && !mobile ? "justify-center px-3" : "gap-3 px-5"} h-16 border-b border-blue-700/50`}>
+        <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden bg-white/10 p-0.5">
+          <img src="/logoBrelness.png" alt="Brelness" className="w-full h-full object-contain" />
         </div>
         {(!collapsed || mobile) && (
-          <span className="text-white font-bold text-lg tracking-tight">Brelness</span>
+          <span className="text-white font-bold text-xl tracking-tight">Brelness</span>
         )}
       </div>
 
       {/* Role badge */}
       {(!collapsed || mobile) && (
-        <div className="mx-4 mt-4 px-3 py-1.5 bg-indigo-500/20 rounded-lg">
-          <p className="text-indigo-200 text-xs font-medium">Super Administrateur</p>
+        <div className="mx-4 mt-4 px-3 py-1.5 bg-blue-500/20 rounded-lg">
+          <p className="text-blue-200 text-xs font-medium">Super Administrateur</p>
           <p className="text-white text-xs truncate">{currentUser?.email}</p>
         </div>
       )}
@@ -52,7 +53,7 @@ export default function SuperAdminLayout() {
             className={({ isActive }) =>
               `flex items-center ${collapsed && !mobile ? "justify-center px-0" : "gap-3 px-3"} py-2.5 rounded-xl text-sm transition-all ${isActive
                 ? "bg-white/15 text-white font-medium"
-                : "text-indigo-200 hover:bg-white/10 hover:text-white"
+                : "text-blue-200 hover:bg-white/10 hover:text-white"
               }`
             }
           >
@@ -74,17 +75,17 @@ export default function SuperAdminLayout() {
       </nav>
 
       {/* Bottom */}
-      <div className={`p-3 border-t border-indigo-700/50 space-y-1`}>
+      <div className={`p-3 border-t border-blue-700/50 space-y-1`}>
         <button
           onClick={toggleDark}
-          className={`w-full flex items-center ${collapsed && !mobile ? "justify-center px-0" : "gap-3 px-3"} py-2.5 rounded-xl text-indigo-200 hover:bg-white/10 hover:text-white text-sm transition-all`}
+          className={`w-full flex items-center ${collapsed && !mobile ? "justify-center px-0" : "gap-3 px-3"} py-2.5 rounded-xl text-blue-200 hover:bg-white/10 hover:text-white text-sm transition-all`}
         >
           {isDark ? <Sun size={18} /> : <Moon size={18} />}
           {(!collapsed || mobile) && <span>{isDark ? "Mode clair" : "Mode sombre"}</span>}
         </button>
         <button
           onClick={handleLogout}
-          className={`w-full flex items-center ${collapsed && !mobile ? "justify-center px-0" : "gap-3 px-3"} py-2.5 rounded-xl text-indigo-200 hover:bg-red-500/20 hover:text-red-300 text-sm transition-all`}
+          className={`w-full flex items-center ${collapsed && !mobile ? "justify-center px-0" : "gap-3 px-3"} py-2.5 rounded-xl text-blue-200 hover:bg-red-500/20 hover:text-red-300 text-sm transition-all`}
         >
           <LogOut size={18} />
           {(!collapsed || mobile) && <span>Déconnexion</span>}
@@ -104,7 +105,7 @@ export default function SuperAdminLayout() {
         {/* Collapse toggle */}
         <button
           onClick={() => setCollapsed(c => !c)}
-          className="absolute top-1/2 -translate-y-1/2 translate-x-full w-5 h-10 bg-indigo-600 hover:bg-indigo-500 rounded-r-lg flex items-center justify-center text-white transition-colors z-10"
+          className="absolute top-1/2 -translate-y-1/2 translate-x-full w-5 h-10 bg-blue-600 hover:bg-blue-500 rounded-r-lg flex items-center justify-center text-white transition-colors z-10"
           style={{ left: collapsed ? "4rem" : "16rem", transition: "left 0.3s" }}
         >
           {collapsed ? <ChevronRight size={12} /> : <ChevronLeft size={12} />}
@@ -116,7 +117,7 @@ export default function SuperAdminLayout() {
         <div className="lg:hidden fixed inset-0 z-40 flex">
           <div className="fixed inset-0 bg-black/50" onClick={() => setMobileOpen(false)} />
           <aside className="relative w-64 flex flex-col z-50" style={{ background: "linear-gradient(180deg, #312e81 0%, #4f46e5 100%)" }}>
-            <button onClick={() => setMobileOpen(false)} className="absolute top-4 right-4 text-indigo-200 hover:text-white">
+            <button onClick={() => setMobileOpen(false)} className="absolute top-4 right-4 text-blue-200 hover:text-white">
               <X size={20} />
             </button>
             <SidebarContent mobile />
@@ -142,7 +143,7 @@ export default function SuperAdminLayout() {
               )}
             </NavLink>
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-white text-sm font-bold overflow-hidden">
+              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-bold overflow-hidden">
                 {currentUser?.avatar ? (
                   <img src={currentUser.avatar} alt={currentUser.name} className="w-full h-full object-cover" />
                 ) : (
