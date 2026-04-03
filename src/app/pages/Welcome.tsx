@@ -5,6 +5,29 @@ import { ArrowRight, ShoppingBag, BarChart3, Users, CalendarCheck, ShieldCheck, 
 export default function Welcome() {
   const navigate = useNavigate();
 
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", businessName: "", details: "" });
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitStatus("loading");
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/shop-requests`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (res.ok) {
+        setSubmitStatus("success");
+      } else {
+        setSubmitStatus("error");
+      }
+    } catch {
+      setSubmitStatus("error");
+    }
+  };
+
   const finishWelcome = () => {
     localStorage.setItem("hasSeenWelcome", "true");
     navigate("/login");
@@ -45,10 +68,10 @@ export default function Welcome() {
 
           <div className="flex flex-col sm:flex-row gap-4 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-500">
             <button 
-              onClick={finishWelcome}
+              onClick={() => setShowModal(true)}
               className="group flex items-center justify-center gap-3 bg-white text-gray-900 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-gray-100 transition-all hover:scale-105 active:scale-95 shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]"
             >
-              Démarrer l'expérience
+              Demander ma plateforme
               <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </button>
             <a href="#features" className="flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 text-white px-8 py-4 rounded-2xl font-bold text-lg border border-white/10 transition-all">
@@ -124,6 +147,63 @@ export default function Welcome() {
           <p>© {new Date().getFullYear()} propulsé par Brelness. Sécurisé & Performant.</p>
         </footer>
       </div>
+
+      {/* Onboarding Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="bg-white dark:bg-gray-900 rounded-3xl w-full max-w-lg p-8 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Créons votre plateforme</h3>
+            <p className="text-gray-500 dark:text-gray-400 mb-6">Un expert Brelness configurera votre boutique et vous contactera sous 24h.</p>
+            
+            {submitStatus === "success" ? (
+              <div className="text-center py-8">
+                <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <ShieldCheck size={32} />
+                </div>
+                <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Demande envoyée !</h4>
+                <p className="text-gray-500 mb-6">Nous avons bien reçu votre demande. Surveillez votre boîte mail.</p>
+                <button onClick={() => setShowModal(false)} className="w-full py-3 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-bold rounded-xl transition-colors">
+                  Fermer
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4 text-left">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1 block">Votre Nom</label>
+                    <input required minLength={2} value={formData.name} onChange={e => setFormData(f => ({...f, name: e.target.value}))} className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Jean Dupont" />
+                  </div>
+                  <div>
+                    <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1 block">Nom de Boutique</label>
+                    <input required minLength={2} value={formData.businessName} onChange={e => setFormData(f => ({...f, businessName: e.target.value}))} className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Ma Super Boutique" />
+                  </div>
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1 block">Email Pro</label>
+                  <input required type="email" value={formData.email} onChange={e => setFormData(f => ({...f, email: e.target.value}))} className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="jean@entreprise.com" />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1 block">Téléphone (Optionnel)</label>
+                  <input type="tel" value={formData.phone} onChange={e => setFormData(f => ({...f, phone: e.target.value}))} className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="+33 6..." />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1 block">Un détail particulier ? (Optionnel)</label>
+                  <textarea value={formData.details} onChange={e => setFormData(f => ({...f, details: e.target.value}))} className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none resize-none h-24" placeholder="Je voudrais un système de rendez-vous pour mon salon de coiffure..." />
+                </div>
+                
+                {submitStatus === "error" && <p className="text-red-500 text-sm">Une erreur est survenue, veuillez réessayer.</p>}
+
+                <div className="flex gap-3 pt-2">
+                  <button type="button" onClick={() => setShowModal(false)} className="flex-1 py-3 px-4 text-gray-600 dark:text-gray-300 font-bold bg-gray-100 dark:bg-gray-800 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">Annuler</button>
+                  <button type="submit" disabled={submitStatus === "loading"} className="flex-[2] py-3 px-4 flex items-center justify-center gap-2 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 disabled:opacity-70 transition-colors">
+                    {submitStatus === "loading" ? "Envoi..." : "Envoyer ma demande"}
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -15,7 +15,7 @@ export interface CurrentUser {
 
 interface AppContextType {
   currentUser: CurrentUser | null;
-  login: (email: string, password: string, role: UserRole) => Promise<boolean>;
+  login: (email: string, password: string) => Promise<{success: boolean, role?: string}>;
   logout: () => void;
   isDark: boolean;
   toggleDark: () => void;
@@ -61,20 +61,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     return () => clearInterval(interval);
   }, [currentUser]);
 
-  const login = async (email: string, password: string, role: UserRole): Promise<boolean> => {
+  const login = async (email: string, password: string): Promise<{success: boolean, role?: string}> => {
     try {
       const response = await api.post('/auth/login', { email, password });
       
-      // Verify if the role requested matches the user's role in DB
       const { access_token, user } = response.data;
-      
-      // Convert db roles to frontend standard
       const backendRole = user.role === 'SUPER_ADMIN' ? 'superadmin' : 'admin';
-      
-      if (backendRole !== role) {
-        console.error("Le rôle souhaité ne correspond pas au rôle réel de l'utilisateur.");
-        return false;
-      }
       
       const loggedInUser: CurrentUser = {
         id: user.id,
@@ -82,20 +74,19 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         email: user.email,
         role: backendRole,
         shopId: user.shopId,
-        token: access_token, // Persist token for interceptors
+        token: access_token,
       };
       
-      // Optional: if shopId is set, fetch the shop name maybe ? Or the backend will soon return it
       if (user.shop && user.shop.name) {
           loggedInUser.shopName = user.shop.name;
       }
 
       setCurrentUser(loggedInUser);
       localStorage.setItem("brelness_user", JSON.stringify(loggedInUser));
-      return true;
+      return { success: true, role: backendRole };
     } catch (err) {
       console.error('Login failed', err);
-      return false;
+      return { success: false };
     }
   };
 
