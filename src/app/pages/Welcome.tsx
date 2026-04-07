@@ -151,51 +151,58 @@ export default function Welcome() {
       {/* Onboarding Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-          <div className="bg-white dark:bg-gray-900 rounded-3xl w-full max-w-lg p-8 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Créons votre plateforme</h3>
-            <p className="text-gray-500 dark:text-gray-400 mb-6">Un expert Brelness configurera votre boutique et vous contactera sous 24h.</p>
+          <div className="bg-white dark:bg-gray-900 rounded-3xl w-full max-w-lg p-6 sm:p-8 shadow-2xl animate-in fade-in zoom-in-95 duration-200 max-[320px]:p-4 relative overflow-hidden">
+            
+            {/* Décoration douce */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-[40px] -mr-10 -mt-10 pointer-events-none"></div>
+            
+            <h3 className="text-2xl max-[320px]:text-xl font-bold text-gray-900 dark:text-white mb-2 relative z-10 flex items-center gap-2">
+              <Sparkles className="text-blue-500 w-6 h-6 max-[320px]:w-5 max-[320px]:h-5" />
+              Créons votre Plateforme
+            </h3>
+            <p className="text-gray-500 dark:text-gray-400 mb-6 max-[320px]:text-xs relative z-10">Un expert Brelness configurera votre boutique et vous contactera sous 24h.</p>
             
             {submitStatus === "success" ? (
-              <div className="text-center py-8">
-                <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <ShieldCheck size={32} />
+              <div className="text-center py-8 relative z-10">
+                <div className="w-16 h-16 max-[320px]:w-12 max-[320px]:h-12 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <ShieldCheck size={32} className="max-[320px]:w-6 max-[320px]:h-6" />
                 </div>
-                <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Demande envoyée !</h4>
-                <p className="text-gray-500 mb-6">Nous avons bien reçu votre demande. Surveillez votre boîte mail.</p>
-                <button onClick={() => setShowModal(false)} className="w-full py-3 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-bold rounded-xl transition-colors">
+                <h4 className="text-xl max-[320px]:text-lg font-bold text-gray-900 dark:text-white mb-2">Demande envoyée !</h4>
+                <p className="text-gray-500 mb-6 max-[320px]:text-xs">Nous avons bien reçu votre demande. Surveillez votre boîte mail.</p>
+                <button onClick={() => setShowModal(false)} className="w-full py-3 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-bold rounded-xl transition-colors max-[320px]:text-sm max-[320px]:py-2">
                   Fermer
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4 text-left">
-                <div className="grid grid-cols-2 gap-4">
+              <form onSubmit={handleSubmit} className="space-y-4 max-[320px]:space-y-3 text-left relative z-10">
+                <div className="grid grid-cols-2 gap-4 max-[320px]:grid-cols-1 max-[320px]:gap-3">
                   <div>
-                    <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1 block">Votre Nom</label>
-                    <input required minLength={2} value={formData.name} onChange={e => setFormData(f => ({...f, name: e.target.value}))} className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Jean Dupont" />
+                    <label className="text-xs max-[320px]:text-[10px] font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1 block">Votre Nom</label>
+                    <input required minLength={2} value={formData.name} onChange={e => setFormData(f => ({...f, name: e.target.value}))} className="w-full px-4 py-3 max-[320px]:py-2 max-[320px]:px-3 max-[320px]:text-sm bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl text-gray-900 dark:text-white shadow-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="Rhenard Munongo" />
                   </div>
                   <div>
-                    <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1 block">Nom de Boutique</label>
-                    <input required minLength={2} value={formData.businessName} onChange={e => setFormData(f => ({...f, businessName: e.target.value}))} className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Ma Super Boutique" />
+                    <label className="text-xs max-[320px]:text-[10px] font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1 block">Nom de Boutique</label>
+                    <input required minLength={2} value={formData.businessName} onChange={e => setFormData(f => ({...f, businessName: e.target.value}))} className="w-full px-4 py-3 max-[320px]:py-2 max-[320px]:px-3 max-[320px]:text-sm bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl text-gray-900 dark:text-white shadow-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="Mon entreprise" />
                   </div>
                 </div>
                 <div>
-                  <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1 block">Email Pro</label>
-                  <input required type="email" value={formData.email} onChange={e => setFormData(f => ({...f, email: e.target.value}))} className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="jean@entreprise.com" />
+                  <label className="text-xs max-[320px]:text-[10px] font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1 block">MAIL</label>
+                  <input required type="email" value={formData.email} onChange={e => setFormData(f => ({...f, email: e.target.value}))} className="w-full px-4 py-3 max-[320px]:py-2 max-[320px]:px-3 max-[320px]:text-sm bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl text-gray-900 dark:text-white shadow-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="jean@entreprise.com" />
                 </div>
                 <div>
-                  <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1 block">Téléphone (Optionnel)</label>
-                  <input type="tel" value={formData.phone} onChange={e => setFormData(f => ({...f, phone: e.target.value}))} className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="+33 6..." />
+                  <label className="text-xs max-[320px]:text-[10px] font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1 block">Téléphone (Optionnel)</label>
+                  <input type="tel" value={formData.phone} onChange={e => setFormData(f => ({...f, phone: e.target.value}))} className="w-full px-4 py-3 max-[320px]:py-2 max-[320px]:px-3 max-[320px]:text-sm bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl text-gray-900 dark:text-white shadow-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="+243 995 89 55 69" />
                 </div>
                 <div>
-                  <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1 block">Un détail particulier ? (Optionnel)</label>
-                  <textarea value={formData.details} onChange={e => setFormData(f => ({...f, details: e.target.value}))} className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none resize-none h-24" placeholder="Je voudrais un système de rendez-vous pour mon salon de coiffure..." />
+                  <label className="text-xs max-[320px]:text-[10px] font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1 block">Un détail particulier ? (Optionnel)</label>
+                  <textarea value={formData.details} onChange={e => setFormData(f => ({...f, details: e.target.value}))} className="w-full px-4 py-3 max-[320px]:py-2 max-[320px]:px-3 max-[320px]:text-sm bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl text-gray-900 dark:text-white shadow-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 outline-none resize-none h-24 max-[320px]:h-20 transition-all" placeholder="Je voudrais un système de rendez-vous pour mon salon de coiffure..." />
                 </div>
                 
-                {submitStatus === "error" && <p className="text-red-500 text-sm">Une erreur est survenue, veuillez réessayer.</p>}
+                {submitStatus === "error" && <p className="text-red-500 text-sm max-[320px]:text-xs">Une erreur est survenue, veuillez réessayer.</p>}
 
-                <div className="flex gap-3 pt-2">
-                  <button type="button" onClick={() => setShowModal(false)} className="flex-1 py-3 px-4 text-gray-600 dark:text-gray-300 font-bold bg-gray-100 dark:bg-gray-800 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">Annuler</button>
-                  <button type="submit" disabled={submitStatus === "loading"} className="flex-[2] py-3 px-4 flex items-center justify-center gap-2 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 disabled:opacity-70 transition-colors">
+                <div className="flex gap-3 pt-2 max-[320px]:pt-0 max-[320px]:flex-col">
+                  <button type="button" onClick={() => setShowModal(false)} className="flex-1 py-3 px-4 max-[320px]:py-2 max-[320px]:text-sm text-gray-600 dark:text-gray-300 font-bold bg-gray-100 dark:bg-gray-800 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">Annuler</button>
+                  <button type="submit" disabled={submitStatus === "loading"} className="flex-[2] py-3 px-4 max-[320px]:py-2 max-[320px]:text-sm flex items-center justify-center gap-2 bg-blue-600 text-white font-bold rounded-xl shadow-sm hover:bg-blue-700 disabled:opacity-70 transition-colors">
                     {submitStatus === "loading" ? "Envoi..." : "Envoyer ma demande"}
                   </button>
                 </div>
