@@ -4,13 +4,55 @@ import { useApp } from "../context/AppContext";
 import { Eye, EyeOff, AlertCircle } from "lucide-react";
 
 export default function Login() {
-  const { login } = useApp();
+  const { login, setCurrentUser } = useApp() as any; // Cast en any pour utiliser setCurrentUser si non exposé ou l'ajouter
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Gestion du retour Google OAuth
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const oauthData = params.get("oauth_data");
+    
+    if (oauthData) {
+      try {
+        const user = JSON.parse(decodeURIComponent(oauthData));
+        const backendRole = user.role === 'SUPER_ADMIN' ? 'superadmin' : 'admin';
+        
+        const loggedInUser: any = {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: backendRole,
+          shopId: user.shopId,
+          token: user.token,
+        };
+        
+        if (user.shop && user.shop.name) {
+          loggedInUser.shopName = user.shop.name;
+        }
+
+        // Nettoyer l'URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+        
+        // Enregistrer dans le localStorage et forcer ou appeler une méthode du context
+        localStorage.setItem("brelness_user", JSON.stringify(loggedInUser));
+        
+        // Redirection
+        if (backendRole === 'superadmin') {
+          window.location.href = "/superadmin";
+        } else {
+          window.location.href = "/admin";
+        }
+      } catch (err) {
+        console.error("Erreur parsing oauth_data:", err);
+        setError("Erreur lors de la connexion via Google.");
+      }
+    }
+  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
