@@ -8,6 +8,20 @@ export default function Welcome() {
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", businessName: "", details: "" });
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  const images = [
+    "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop", // Dashboard Analytics
+    "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=2070&auto=format&fit=crop", // POS / Checkout
+    "https://images.unsplash.com/photo-1596462502278-27bf85033e5a?q=80&w=2071&auto=format&fit=crop" // Cosmetic shop catalog
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % images.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, [images.length]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,84 +73,118 @@ export default function Welcome() {
         </header>
 
         {/* Hero Section */}
-        <main className="flex-1 w-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col lg:flex-row items-center justify-between gap-12 mt-12 lg:mt-24">
+        <main className="flex-1 w-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-center justify-center gap-12 md:gap-16 mt-10 md:mt-16">
           
           {/* Section 1 : Textes et Boutons */}
-          <section className="flex-1 w-full text-center lg:text-left flex flex-col items-center lg:items-start">
-            <h2 className="text-5xl md:text-7xl lg:text-6xl xl:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-gray-500 mb-6 leading-tight tracking-tight max-w-2xl animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150">
+          <section className="w-full text-center flex flex-col items-center max-w-3xl mx-auto">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-gray-500 mb-5 leading-tight tracking-tight animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150">
               La plateforme totale pour gérer votre business.
             </h2>
             
-            <p className="text-lg md:text-xl text-gray-400 leading-relaxed font-medium max-w-2xl mb-10 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300">
+            <p className="text-base md:text-lg text-gray-400 leading-relaxed font-medium max-w-xl mb-8 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300">
               Boutique en ligne, paiements, calendriers et statistiques intelligentes. Tout au même endroit pour révolutionner vos ventes.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center gap-4 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-500 w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-500 w-full sm:w-auto">
               <button 
                 onClick={() => setShowModal(true)}
-                className="group flex w-full sm:w-auto items-center justify-center gap-3 bg-white text-gray-900 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-gray-100 transition-all hover:scale-105 active:scale-95 shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]"
+                className="group flex w-full sm:w-auto items-center justify-center gap-2 bg-white text-gray-900 px-6 py-3.5 rounded-xl font-bold text-base hover:bg-gray-100 transition-all hover:scale-105 active:scale-95 shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]"
               >
                 Demander ma plateforme
-                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </button>
-              <a href="#features" className="flex w-full sm:w-auto items-center justify-center gap-3 bg-white/5 hover:bg-white/10 text-white px-8 py-4 rounded-2xl font-bold text-lg border border-white/10 transition-all">
+              <a href="#features" className="flex w-full sm:w-auto items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-white px-6 py-3.5 rounded-xl font-bold text-base border border-white/10 transition-all">
                 Découvrir les atouts
               </a>
             </div>
 
-            <p className="text-sm text-gray-500 mt-6 flex items-center justify-center lg:justify-start gap-1.5 animate-in fade-in duration-1000 delay-700">
+            <p className="text-sm text-gray-500 mt-5 flex items-center justify-center gap-1.5 animate-in fade-in duration-1000 delay-700">
               <ShieldCheck size={16} /> Configuration terminée en 2 minutes chrono.
             </p>
           </section>
 
-          {/* Section 2 : Bloc Démo */}
-          <section className="flex-1 w-full max-w-2xl lg:max-w-none relative animate-in fade-in zoom-in duration-1000 delay-500 mt-10 lg:mt-0">
-             <div className="relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl aspect-[16/11] flex items-center justify-center group cursor-pointer bg-gradient-to-tr from-blue-900/20 to-purple-900/20">
-                <div className="absolute inset-0 bg-blue-500/5 mix-blend-overlay group-hover:bg-blue-400/10 transition-colors duration-500"></div>
+          {/* Section 2 : Bloc Démo Slider */}
+          <section className="w-full max-w-5xl mx-auto relative animate-in fade-in zoom-in duration-1000 delay-500 z-10">
+             <div className="relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl aspect-[16/10] sm:aspect-[21/9] flex items-center justify-center group bg-gradient-to-tr from-blue-900/20 to-purple-900/20">
+                <div className="absolute inset-0 bg-blue-500/5 mix-blend-overlay group-hover:bg-blue-400/10 transition-colors duration-500 z-10"></div>
                 
-                {/* Interface factice du Dashboard (Image stylisée) */}
-                <div className="relative w-[90%] h-[85%] bg-[#0B1120] rounded-xl border border-white/10 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col group-hover:scale-[1.02] transition-transform duration-500 ease-out">
+                {/* Images en background avec effet de slide/fade */}
+                {images.map((img, index) => (
+                  <div 
+                    key={index} 
+                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === activeSlide ? 'opacity-100 z-0' : 'opacity-0 -z-10'}`}
+                    style={{ backgroundImage: `url(${img})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                  >
+                    <div className="absolute inset-0 bg-blue-900/50 mix-blend-multiply"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-[#0B1120]/40 to-transparent"></div>
+                  </div>
+                ))}
+                
+                {/* Interface factice du Dashboard qui flotte */}
+                <div className="relative z-20 w-[90%] sm:w-[70%] md:w-[60%] h-[80%] bg-[#0B1120]/80 backdrop-blur-md rounded-xl border border-white/10 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col group-hover:scale-[1.02] transition-transform duration-500 ease-out">
                    {/* Barre de navigation fausse MacOS */}
-                   <div className="h-8 bg-white/5 flex items-center px-4 gap-2 border-b border-white/5">
+                   <div className="h-8 bg-white/5 flex items-center px-4 gap-2 border-b border-white/5 shrink-0">
                       <div className="w-2.5 h-2.5 rounded-full bg-red-400/80"></div>
                       <div className="w-2.5 h-2.5 rounded-full bg-amber-400/80"></div>
                       <div className="w-2.5 h-2.5 rounded-full bg-emerald-400/80"></div>
                    </div>
                    
-                   {/* Contenu visuel démo */}
-                   <div className="flex-1 relative bg-[url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center">
-                      <div className="absolute inset-0 bg-blue-900/60 mix-blend-multiply"></div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-transparent to-transparent"></div>
-                      
-                      {/* Élément superposé 1 */}
-                      <div className="absolute top-6 left-6 right-6 bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/10 flex items-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-700 fill-mode-both">
-                         <div className="w-12 h-12 rounded-lg bg-emerald-500/20 flex flex-col items-center justify-center shrink-0">
-                           <CalendarCheck size={20} className="text-emerald-400" />
-                         </div>
-                         <div className="flex-1">
-                           <div className="h-2 w-1/3 bg-white/20 rounded-full mb-2"></div>
-                           <div className="h-2 w-1/4 bg-emerald-400/50 rounded-full"></div>
-                         </div>
+                   {/* Contenu de l'interface qui s'adapte à la slide */}
+                   <div className="flex-1 relative flex flex-col justify-end p-4 sm:p-6 overflow-hidden">
+                       
+                      <div className={`transition-all duration-700 w-full absolute bottom-4 sm:bottom-6 left-0 px-4 sm:px-6 ${activeSlide === 0 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
+                        {/* Slide 1 : Dashboard Stats */}
+                        <div className="bg-white/10 backdrop-blur-md rounded-xl p-3 sm:p-4 border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xl">
+                           <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 flex-shrink-0 rounded-full bg-blue-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
+                                <BarChart3 size={18} className="text-white" />
+                              </div>
+                              <div>
+                                 <div className="text-white text-sm font-bold">Ventes du jour</div>
+                                 <div className="text-emerald-400 text-xs">+15 Nouvelles ventes</div>
+                              </div>
+                           </div>
+                           <div className="text-white font-black text-xl">$984.50</div>
+                        </div>
                       </div>
 
-                      {/* Élément superposé 2 */}
-                      <div className="absolute bottom-6 left-6 right-6 bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/10 flex items-center justify-between animate-in fade-in slide-in-from-bottom-4 duration-700 delay-1000 fill-mode-both">
-                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
-                              <BarChart3 size={18} className="text-white" />
-                            </div>
-                            <div>
-                               <div className="text-white text-sm font-bold">Ventes du jour</div>
-                               <div className="text-emerald-400 text-xs">+15 Nouvelles commandes</div>
-                            </div>
-                         </div>
-                         <div className="text-white font-black text-xl">$984.50</div>
+                      <div className={`transition-all duration-700 w-full absolute bottom-4 sm:bottom-6 left-0 px-4 sm:px-6 ${activeSlide === 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
+                        {/* Slide 2 : Réservation modale */}
+                        <div className="bg-white/10 backdrop-blur-md rounded-xl p-3 sm:p-4 border border-white/10 flex items-center justify-between shadow-xl">
+                           <div className="flex items-center gap-4">
+                             <div className="w-10 h-10 flex-shrink-0 rounded-lg bg-emerald-500/20 flex items-center justify-center">
+                               <CalendarCheck size={20} className="text-emerald-400" />
+                             </div>
+                             <div>
+                               <div className="text-white text-sm font-bold">Réservation confirmée</div>
+                               <div className="text-gray-300 text-xs">Mardi 14h00 - Coupe Homme</div>
+                             </div>
+                           </div>
+                           <ShieldCheck size={20} className="text-emerald-400 hidden sm:block" />
+                        </div>
                       </div>
+
+                      <div className={`transition-all duration-700 w-full absolute bottom-4 sm:bottom-6 left-0 px-4 sm:px-6 ${activeSlide === 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
+                        {/* Slide 3 : Produit Cosmétique */}
+                        <div className="bg-white/10 backdrop-blur-md rounded-xl p-3 sm:p-4 border border-white/10 flex items-center justify-between shadow-xl">
+                           <div className="flex items-center gap-4">
+                              <div className="w-10 h-10 flex-shrink-0 rounded-lg bg-purple-500/20 flex items-center justify-center">
+                                <ShoppingBag size={20} className="text-purple-400" />
+                              </div>
+                              <div>
+                                 <div className="text-white text-sm font-bold">Catalogue Cosmétique</div>
+                                 <div className="text-gray-300 text-xs">Sérum Visage Nuit ajouté</div>
+                              </div>
+                           </div>
+                           <button className="bg-purple-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg hidden sm:block">Acheter</button>
+                        </div>
+                      </div>
+
                    </div>
                 </div>
                 
-                {/* Lueur arrière */}
-                <div className="absolute -inset-1 bg-gradient-to-tr from-blue-600 to-purple-600 rounded-[2rem] blur-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-500 -z-10"></div>
+                {/* Lueur arrière de la boite démo */}
+                <div className="absolute -inset-1 bg-gradient-to-tr from-blue-600 to-purple-600 rounded-[2rem] blur-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-500 -z-20"></div>
              </div>
           </section>
         </main>
