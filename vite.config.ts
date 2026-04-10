@@ -10,7 +10,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['icon-192.png', 'icon-512.png', 'screenshot.png'],
+      includeAssets: ['logoBrelness.png', 'screenshot.png'],
       manifest: {
         name: 'Brelness - Commerce & Services',
         short_name: 'Brelness',
@@ -23,13 +23,13 @@ export default defineConfig({
         start_url: '/',
         icons: [
           {
-            src: '/icon-192.png',
+            src: '/logoBrelness.png',
             sizes: '192x192',
             type: 'image/png',
             purpose: 'any maskable',
           },
           {
-            src: '/icon-512.png',
+            src: '/logoBrelness.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable',
