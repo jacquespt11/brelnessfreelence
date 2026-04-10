@@ -45,43 +45,100 @@ export default function Welcome() {
 
       <div className="relative z-10 flex flex-col min-h-screen">
         {/* Header */}
-        <header className="pt-8 pb-4 px-6 md:px-12 max-w-7xl mx-auto w-full flex items-center gap-3 animate-in fade-in slide-in-from-top-8 duration-700">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden">
-             <img src="/logoBrelness.png" alt="Brelness" className="w-full h-full object-cover" />
+        <header className="pt-8 pb-4 px-6 md:px-12 max-w-7xl mx-auto w-full flex items-center justify-between animate-in fade-in slide-in-from-top-8 duration-700">
+          <button onClick={() => navigate("/login")} className="flex items-center gap-3 hover:opacity-80 transition-opacity text-left">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden">
+               <img src="/logoBrelness.png" alt="Brelness" className="w-full h-full object-cover" />
+            </div>
+            <h1 className="text-2xl font-black tracking-tight text-white">Brelness</h1>
+          </button>
+          
+          <div className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-bold tracking-wide animate-in fade-in zoom-in duration-500">
+            <Sparkles size={16} /> Brelness O.S 2.0 est arrivé
           </div>
-          <h1 className="text-2xl font-black tracking-tight text-white">Brelness</h1>
         </header>
 
         {/* Hero Section */}
-        <main className="flex-1 w-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-center justify-center text-center mt-12 md:mt-24">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-bold tracking-wide mb-8 animate-in fade-in zoom-in duration-500">
-            <Sparkles size={16} /> Brelness O.S 2.0 est arrivé
-          </div>
+        <main className="flex-1 w-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col lg:flex-row items-center justify-between gap-12 mt-12 lg:mt-24">
           
-          <h2 className="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-gray-500 mb-6 leading-tight tracking-tight max-w-4xl animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150">
-            La plateforme totale pour gérer votre business.
-          </h2>
-          
-          <p className="text-lg md:text-xl text-gray-400 leading-relaxed font-medium max-w-2xl mb-12 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300">
-            Boutique en ligne, paiements, calendriers et statistiques intelligentes. Tout au même endroit pour révolutionner vos ventes.
-          </p>
+          {/* Section 1 : Textes et Boutons */}
+          <section className="flex-1 w-full text-center lg:text-left flex flex-col items-center lg:items-start">
+            <h2 className="text-5xl md:text-7xl lg:text-6xl xl:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-gray-500 mb-6 leading-tight tracking-tight max-w-2xl animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150">
+              La plateforme totale pour gérer votre business.
+            </h2>
+            
+            <p className="text-lg md:text-xl text-gray-400 leading-relaxed font-medium max-w-2xl mb-10 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300">
+              Boutique en ligne, paiements, calendriers et statistiques intelligentes. Tout au même endroit pour révolutionner vos ventes.
+            </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-500">
-            <button 
-              onClick={() => setShowModal(true)}
-              className="group flex items-center justify-center gap-3 bg-white text-gray-900 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-gray-100 transition-all hover:scale-105 active:scale-95 shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]"
-            >
-              Demander ma plateforme
-              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-            </button>
-            <a href="#features" className="flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 text-white px-8 py-4 rounded-2xl font-bold text-lg border border-white/10 transition-all">
-              Découvrir les atouts
-            </a>
-          </div>
+            <div className="flex flex-col sm:flex-row items-center gap-4 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-500 w-full sm:w-auto">
+              <button 
+                onClick={() => setShowModal(true)}
+                className="group flex w-full sm:w-auto items-center justify-center gap-3 bg-white text-gray-900 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-gray-100 transition-all hover:scale-105 active:scale-95 shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]"
+              >
+                Demander ma plateforme
+                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+              </button>
+              <a href="#features" className="flex w-full sm:w-auto items-center justify-center gap-3 bg-white/5 hover:bg-white/10 text-white px-8 py-4 rounded-2xl font-bold text-lg border border-white/10 transition-all">
+                Découvrir les atouts
+              </a>
+            </div>
 
-          <p className="text-sm text-gray-500 mt-6 flex items-center gap-1.5 animate-in fade-in duration-1000 delay-700">
-            <ShieldCheck size={16} /> Configuration terminée en 2 minutes chrono.
-          </p>
+            <p className="text-sm text-gray-500 mt-6 flex items-center justify-center lg:justify-start gap-1.5 animate-in fade-in duration-1000 delay-700">
+              <ShieldCheck size={16} /> Configuration terminée en 2 minutes chrono.
+            </p>
+          </section>
+
+          {/* Section 2 : Bloc Démo */}
+          <section className="flex-1 w-full max-w-2xl lg:max-w-none relative animate-in fade-in zoom-in duration-1000 delay-500 mt-10 lg:mt-0">
+             <div className="relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl aspect-[16/11] flex items-center justify-center group cursor-pointer bg-gradient-to-tr from-blue-900/20 to-purple-900/20">
+                <div className="absolute inset-0 bg-blue-500/5 mix-blend-overlay group-hover:bg-blue-400/10 transition-colors duration-500"></div>
+                
+                {/* Interface factice du Dashboard (Image stylisée) */}
+                <div className="relative w-[90%] h-[85%] bg-[#0B1120] rounded-xl border border-white/10 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col group-hover:scale-[1.02] transition-transform duration-500 ease-out">
+                   {/* Barre de navigation fausse MacOS */}
+                   <div className="h-8 bg-white/5 flex items-center px-4 gap-2 border-b border-white/5">
+                      <div className="w-2.5 h-2.5 rounded-full bg-red-400/80"></div>
+                      <div className="w-2.5 h-2.5 rounded-full bg-amber-400/80"></div>
+                      <div className="w-2.5 h-2.5 rounded-full bg-emerald-400/80"></div>
+                   </div>
+                   
+                   {/* Contenu visuel démo */}
+                   <div className="flex-1 relative bg-[url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center">
+                      <div className="absolute inset-0 bg-blue-900/60 mix-blend-multiply"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-transparent to-transparent"></div>
+                      
+                      {/* Élément superposé 1 */}
+                      <div className="absolute top-6 left-6 right-6 bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/10 flex items-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-700 fill-mode-both">
+                         <div className="w-12 h-12 rounded-lg bg-emerald-500/20 flex flex-col items-center justify-center shrink-0">
+                           <CalendarCheck size={20} className="text-emerald-400" />
+                         </div>
+                         <div className="flex-1">
+                           <div className="h-2 w-1/3 bg-white/20 rounded-full mb-2"></div>
+                           <div className="h-2 w-1/4 bg-emerald-400/50 rounded-full"></div>
+                         </div>
+                      </div>
+
+                      {/* Élément superposé 2 */}
+                      <div className="absolute bottom-6 left-6 right-6 bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/10 flex items-center justify-between animate-in fade-in slide-in-from-bottom-4 duration-700 delay-1000 fill-mode-both">
+                         <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
+                              <BarChart3 size={18} className="text-white" />
+                            </div>
+                            <div>
+                               <div className="text-white text-sm font-bold">Ventes du jour</div>
+                               <div className="text-emerald-400 text-xs">+15 Nouvelles commandes</div>
+                            </div>
+                         </div>
+                         <div className="text-white font-black text-xl">$984.50</div>
+                      </div>
+                   </div>
+                </div>
+                
+                {/* Lueur arrière */}
+                <div className="absolute -inset-1 bg-gradient-to-tr from-blue-600 to-purple-600 rounded-[2rem] blur-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-500 -z-10"></div>
+             </div>
+          </section>
         </main>
 
         {/* Bento Grid Features */}
