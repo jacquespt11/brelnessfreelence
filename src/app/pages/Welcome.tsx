@@ -13,7 +13,7 @@ export default function Welcome() {
   const images = [
     "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop", // Dashboard Analytics
     "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=2070&auto=format&fit=crop", // POS / Checkout
-    "https://images.unsplash.com/photo-1596462502278-27bf85033e5a?q=80&w=2071&auto=format&fit=crop" // Cosmetic shop catalog
+    "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=2070&auto=format&fit=crop" // Cosmetic shop catalog (working URL)
   ];
 
   useEffect(() => {
