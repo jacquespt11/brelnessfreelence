@@ -1,9 +1,9 @@
-﻿import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Search, Plus, Edit2, Trash2, UserCheck, UserX } from "lucide-react";
 import api from "../../api";
 
 function AdminModal({ admin, shops, onClose, onSave }: { admin: any | null; shops: any[]; onClose: () => void; onSave: (a: any) => void }) {
-  const [form, setForm] = useState({ name: admin?.name || "", email: admin?.email || "", password: "", shopId: admin?.shopId || shops[0]?.id, status: admin?.status || "active" });
+  const [form, setForm] = useState({ name: admin?.name || "", email: admin?.email || "", phone: admin?.phone || "", password: "", shopId: admin?.shopId || shops[0]?.id, status: admin?.status || "active" });
   const selectedShop = shops.find(s => s.id === form.shopId);
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
@@ -20,6 +20,10 @@ function AdminModal({ admin, shops, onClose, onSave }: { admin: any | null; shop
           <div>
             <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Email</label>
             <input type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Téléphone (Optionnel) - Format : +243...</label>
+            <input type="tel" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} placeholder="+243xxxxxxxxx" className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
           <div>
             <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">{admin?.id ? "Nouveau mot de passe (optionnel)" : "Mot de passe"}</label>
