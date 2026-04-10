@@ -212,7 +212,7 @@ export default function ShopCatalog() {
       {!showCatalog && (
         <>
           {/* Premium Hero Section */}
-          <section className="relative h-[70vh] min-h-[500px] flex items-center justify-center overflow-hidden bg-gray-900 shadow-2xl">
+          <section className="relative h-[55vh] md:h-[65vh] min-h-[350px] md:min-h-[450px] flex items-center justify-center overflow-hidden bg-gray-900 shadow-2xl">
             {slides.map((img: string, idx: number) => (
               <div
                 key={idx}
@@ -225,16 +225,16 @@ export default function ShopCatalog() {
             <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-black/60 z-20" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent z-20" />
             
-            <div className="relative z-30 px-6 max-w-6xl mx-auto w-full flex flex-col justify-end h-full pb-20">
+            <div className="relative z-30 px-6 max-w-6xl mx-auto w-full flex flex-col justify-end h-full pb-10 md:pb-16">
               <div className="max-w-3xl animate-in fade-in slide-in-from-bottom-10 duration-1000">
-                <span className="inline-block py-1.5 px-4 rounded-full bg-white/10 backdrop-blur-md text-white text-sm font-bold tracking-widest uppercase mb-6 border border-white/20 shadow-xl">
-                  {isService ? "Services Premium" : "Collection Exclusif"}
+                <span className="inline-block py-1 px-3 md:py-1.5 md:px-4 rounded-full bg-white/10 backdrop-blur-md text-white text-xs md:text-sm font-bold tracking-widest uppercase mb-4 md:mb-6 border border-white/20 shadow-xl">
+                  {isService ? "Services Premium" : "Collection Exclusive"}
                 </span>
-                <h2 className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tighter leading-[1.1] drop-shadow-2xl">
+                <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-4 md:mb-6 tracking-tighter leading-[1.1] drop-shadow-2xl">
                   {shop.heroTitle || shop.name}
                 </h2>
                 {shop.description && (
-                  <p className="text-xl md:text-2xl text-white/80 leading-relaxed font-medium max-w-2xl drop-shadow-lg">
+                  <p className="text-base md:text-xl lg:text-2xl text-white/80 leading-relaxed font-medium max-w-2xl drop-shadow-lg">
                     {shop.description}
                   </p>
                 )}
