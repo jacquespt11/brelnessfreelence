@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 import { useNavigate } from "react-router";
 import { useApp } from "../context/AppContext";
 import { Eye, EyeOff, AlertCircle } from "lucide-react";
