@@ -88,7 +88,7 @@ export default function Welcome() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-500 w-full sm:w-auto">
               <button
                 onClick={() => setShowModal(true)}
-                className="group flex w-full sm:w-auto items-center justify-center gap-2 bg-white text-gray-900 px-6 py-3.5 rounded-xl font-bold text-base hover:bg-gray-100 transition-all hover:scale-105 active:scale-95 shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]"
+                className="group flex w-full sm:w-auto items-center justify-center gap-2 bg-cyan-500 text-white px-6 py-3.5 rounded-xl font-bold text-base hover:bg-cyan-400 transition-all hover:scale-105 active:scale-95 shadow-[0_0_40px_-10px_rgba(6,182,212,0.5)]"
               >
                 Demander ma plateforme
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
