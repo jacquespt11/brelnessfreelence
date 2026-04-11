@@ -105,7 +105,7 @@ export default function Welcome() {
 
           {/* Section 2 : Bloc Démo Slider */}
           <section className="w-full max-w-5xl mx-auto relative animate-in fade-in zoom-in duration-1000 delay-500 z-10">
-            <div className="relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl aspect-[16/8] sm:aspect-[21/8] flex items-center justify-center group bg-gradient-to-tr from-blue-900/20 to-purple-900/20">
+            <div className="relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl aspect-[1/1] sm:aspect-video flex items-center justify-center group bg-gradient-to-tr from-blue-900/20 to-purple-900/20">
               <div className="absolute inset-0 bg-blue-500/5 mix-blend-overlay group-hover:bg-blue-400/10 transition-colors duration-500 z-10"></div>
 
               {/* Images en background avec effet de slide/fade */}
@@ -228,15 +228,15 @@ export default function Welcome() {
             </div>
 
             {/* Bento Item 4 - Wide */}
-            <div className="md:col-span-2 rounded-[32px] p-8 bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 relative overflow-hidden group hover:border-amber-500/50 transition-colors flex flex-col justify-end">
+            <div className="md:col-span-2 rounded-[32px] p-6 sm:p-8 min-h-[320px] md:min-h-0 bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 relative overflow-hidden group hover:border-amber-500/50 transition-colors flex flex-col justify-end">
               <div className="absolute bottom-0 left-1/4 w-full h-32 bg-amber-500/20 rounded-full blur-[80px] -mb-16 group-hover:bg-amber-500/30 transition-colors"></div>
-              <div className="relative z-10 flex items-center gap-6">
+              <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 mt-auto">
                 <div className="w-16 h-16 bg-amber-500/20 rounded-2xl flex items-center justify-center shrink-0">
                   <Users size={32} className="text-amber-400" />
                 </div>
                 <div>
                   <h4 className="text-2xl font-bold text-white mb-2">Fidélisation Instantanée</h4>
-                  <p className="text-gray-400 text-lg">Suivez les habitudes et récompensez les clients avec des coupons de réduction exclusifs depuis un CRM intégré.</p>
+                  <p className="text-gray-400 text-base sm:text-lg">Suivez les habitudes et récompensez les clients avec des coupons de réduction exclusifs depuis un CRM intégré.</p>
                 </div>
               </div>
             </div>
