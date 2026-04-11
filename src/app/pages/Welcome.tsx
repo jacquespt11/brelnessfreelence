@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { ArrowRight, ShoppingBag, BarChart3, Users, CalendarCheck, ShieldCheck, Sparkles } from "lucide-react";
-import api from "../../api";
+import api from "../api";
 
 export default function Welcome() {
   const navigate = useNavigate();
