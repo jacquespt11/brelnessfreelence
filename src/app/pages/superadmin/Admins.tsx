@@ -99,9 +99,13 @@ export default function SAAdmins() {
       }
       setModalAdmin(null);
       fetchData();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error saving admin", error);
-      alert("Erreur lors de l'enregistrement de l'administrateur");
+      if (error.response?.status === 409) {
+        alert("Cet email est déjà utilisé par un autre compte.");
+      } else {
+        alert(error.response?.data?.message || "Erreur lors de l'enregistrement de l'administrateur");
+      }
     }
   };
 
