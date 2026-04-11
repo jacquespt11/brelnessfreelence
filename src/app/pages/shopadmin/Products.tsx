@@ -55,7 +55,7 @@ function ProductModal({ product, shopId, businessType, onClose, onSave }: any) {
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Prix de base (FCFA) *</label>
+              <label className="text-sm text-gray-700 dark:text-gray-300 mb-1 block">Prix de base (FC) *</label>
               <input type="number" value={form.price} onChange={e => setForm(f => ({ ...f, price: Number(e.target.value) }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
             </div>
             {!form.isService && (
@@ -108,7 +108,7 @@ function ProductModal({ product, shopId, businessType, onClose, onSave }: any) {
                     <input placeholder="Nom (ex: Rouge, Taille M)" value={v.name} onChange={e => { const nv = [...form.variants]; nv[idx].name = e.target.value; setForm({ ...form, variants: nv }); }} className="flex-1 px-3 py-1.5 rounded-lg border text-sm" />
                     <input type="number" placeholder="Prix optionnel" value={v.price || ""} onChange={e => { const nv = [...form.variants]; nv[idx].price = Number(e.target.value); setForm({ ...form, variants: nv }); }} className="w-24 px-3 py-1.5 rounded-lg border text-sm" />
                     <input type="number" placeholder="Stock" value={v.stock} onChange={e => { const nv = [...form.variants]; nv[idx].stock = Number(e.target.value); setForm({ ...form, variants: nv }); }} className="w-20 px-3 py-1.5 rounded-lg border text-sm" />
-                    <button type="button" onClick={() => { const nv = form.variants.filter((_, i) => i !== idx); setForm({ ...form, variants: nv }); }} className="text-red-500"><Trash2 size={16} /></button>
+                    <button type="button" onClick={() => { const nv = form.variants.filter((_: any, i: number) => i !== idx); setForm({ ...form, variants: nv }); }} className="text-red-500"><Trash2 size={16} /></button>
                   </div>
                 ))}
               </div>
@@ -120,7 +120,7 @@ function ProductModal({ product, shopId, businessType, onClose, onSave }: any) {
               {images.map((img, idx) => (
                 <div key={idx} className="relative aspect-square rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden group">
                   <img src={img} alt="Aperçu" className="w-full h-full object-cover" />
-                  <button onClick={() => setImages(images.filter((_, i) => i !== idx))} className="absolute top-1 right-1 p-1 bg-red-500/80 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button onClick={() => setImages(images.filter((_: any, i: number) => i !== idx))} className="absolute top-1 right-1 p-1 bg-red-500/80 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
                     <X size={12} />
                   </button>
                 </div>
@@ -168,7 +168,7 @@ function ShareModal({ product, onClose }: { product: any; onClose: () => void })
             </div>
             <div className="min-w-0">
               <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{product.name}</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">{product.price.toLocaleString("fr")} FCFA</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">{product.price.toLocaleString("fr")} FC</p>
             </div>
           </div>
           <div>

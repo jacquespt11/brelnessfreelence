@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Package, ClipboardList, TrendingUp, AlertTriangle, Star, Clock, CheckCircle2 } from "lucide-react";
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { useApp } from "../../context/AppContext";
@@ -71,16 +71,21 @@ export default function ShopDashboard() {
 
   const topProducts = [...shopProducts].sort((a, b) => (b.reservationCount || 0) - (a.reservationCount || 0));
 
-  // Temporary mock data for trend chart since we don't have historical data on the backend yet
-  const productReservationTrend = [
-    { day: "Lun", reservations: 4 },
-    { day: "Mar", reservations: 7 },
-    { day: "Mer", reservations: 5 },
-    { day: "Jeu", reservations: 11 },
-    { day: "Ven", reservations: 9 },
-    { day: "Sam", reservations: 15 },
-    { day: "Dim", reservations: 12 },
-  ];
+  // Calcul dynamique des réservations pour les 7 derniers jours
+  const last7Days = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - (6 - i));
+    return d;
+  });
+
+  const productReservationTrend = last7Days.map(date => {
+    const dayStr = date.toLocaleDateString("fr", { weekday: 'short' });
+    const count = shopReservations.filter(r => {
+      const rDate = new Date(r.createdAt);
+      return rDate.getDate() === date.getDate() && rDate.getMonth() === date.getMonth() && rDate.getFullYear() === date.getFullYear();
+    }).length;
+    return { day: dayStr.charAt(0).toUpperCase() + dayStr.slice(1), reservations: count };
+  });
 
   return (
     <div className="p-6 space-y-6">
@@ -121,7 +126,7 @@ export default function ShopDashboard() {
 
       {/* KPI cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard icon={TrendingUp} label="Revenu total" value={`${totalRevenue.toLocaleString("fr")} FCFA`} sub="Revenu des résas complétées" bg="bg-emerald-100 dark:bg-emerald-900/30" color="text-emerald-600 dark:text-emerald-400" />
+        <StatCard icon={TrendingUp} label="Revenu total" value={`${totalRevenue.toLocaleString("fr")} FC`} sub="Revenu des résas complétées" bg="bg-emerald-100 dark:bg-emerald-900/30" color="text-emerald-600 dark:text-emerald-400" />
         <StatCard icon={ClipboardList} label="Réservations" value={shopReservations.length} sub={`${pendingRes.length} en attente`} bg="bg-blue-100 dark:bg-blue-900/30" color="text-blue-600 dark:text-blue-400" />
         <StatCard icon={Package} label="Total produits" value={shopProducts.length} sub={`${shopProducts.filter(p => p.status === "active").length} actifs`} bg="bg-blue-100 dark:bg-blue-900/30" color="text-blue-600 dark:text-blue-400" />
         <StatCard icon={Star} label="Note moyenne" value={shopProducts.length > 0 ? (shopProducts.reduce((s, p) => s + (p.rating || 0), 0) / shopProducts.length).toFixed(1) : "—"} sub={`${shopProducts.reduce((s, p) => s + (p.reviewCount || 0), 0)} avis`} bg="bg-amber-100 dark:bg-amber-900/30" color="text-amber-600 dark:text-amber-400" />
@@ -197,7 +202,7 @@ export default function ShopDashboard() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{prod.name}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">{prod.price?.toLocaleString("fr")} FCFA · Stock: {prod.stock}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{prod.price?.toLocaleString("fr")} FC · Stock: {prod.stock}</p>
                 </div>
                 <div className="flex items-center gap-1">
                   {prod.stock <= 5 && <AlertTriangle size={12} className="text-amber-500" />}

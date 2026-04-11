@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { ArrowRight, ShoppingBag, BarChart3, Users, CalendarCheck, ShieldCheck, Sparkles } from "lucide-react";
+import api from "../../api";
 
 export default function Welcome() {
   const navigate = useNavigate();
@@ -27,16 +28,8 @@ export default function Welcome() {
     e.preventDefault();
     setSubmitStatus("loading");
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/shop-requests`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      if (res.ok) {
-        setSubmitStatus("success");
-      } else {
-        setSubmitStatus("error");
-      }
+      await api.post("/shop-requests", formData);
+      setSubmitStatus("success");
     } catch {
       setSubmitStatus("error");
     }
@@ -82,7 +75,7 @@ export default function Welcome() {
             </h2>
 
             <p className="text-base md:text-lg text-gray-400 leading-relaxed font-medium max-w-xl mb-8 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300">
-              Boutique en ligne, reservation à la demande, calendriers et statistiques intelligentes. Tout au même endroit pour révolutionner vos ventes.
+              Boutique en ligne, réservation à la demande, calendriers et statistiques intelligentes. Tout au même endroit pour révolutionner vos ventes.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-500 w-full sm:w-auto">
