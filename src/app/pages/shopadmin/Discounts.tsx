@@ -172,11 +172,11 @@ export default function Discounts() {
                     {d.type === 'PERCENT' ? (
                       <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium"><Percent size={14} /> {d.value}%</span>
                     ) : (
-                      <span className="flex items-center gap-1 text-blue-600 dark:text-blue-400 font-medium"><Tag size={14} /> {d.value.toLocaleString()} FCFA</span>
+                      <span className="flex items-center gap-1 text-blue-600 dark:text-blue-400 font-medium"><Tag size={14} /> {d.value.toLocaleString()} FC</span>
                     )}
                   </td>
                   <td className="px-6 py-4 text-gray-500 text-xs space-y-1">
-                    {d.minAmount ? <p>Min: {d.minAmount.toLocaleString()} FCFA</p> : <p>Pas de min</p>}
+                    {d.minAmount ? <p>Min: {d.minAmount.toLocaleString()} FC</p> : <p>Pas de min</p>}
                     {d.expiresAt ? <p>Exp: {new Date(d.expiresAt).toLocaleDateString()}</p> : <p>Expir: Jamais</p>}
                   </td>
                   <td className="px-6 py-4">
@@ -228,7 +228,7 @@ export default function Discounts() {
                   <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 block">Type de réduction</label>
                   <select value={form.type} onChange={e => setForm(f => ({...f, type: e.target.value}))} className="w-full px-4 py-2 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="PERCENT">Pourcentage (%)</option>
-                    <option value="FIXED">Montant Fixe (FCFA)</option>
+                    <option value="FIXED">Montant Fixe (FC)</option>
                   </select>
                 </div>
                 

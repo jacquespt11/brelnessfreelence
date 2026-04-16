@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { Search, CheckCircle2, XCircle, Clock, ClipboardList, ChevronDown, MessageSquare, Tag } from "lucide-react";
 import api from "../../api";
 import { useApp } from "../../context/AppContext";
@@ -60,7 +60,7 @@ function DetailModal({ res, onClose, onUpdate }: { res: any; onClose: () => void
               <div className="flex items-center justify-between mt-2 pt-2 border-t border-gray-200 dark:border-gray-600">
                 <p className="text-sm text-gray-500 dark:text-gray-400">Total payé/à payer</p>
                 <div className="text-right">
-                  <span className="text-sm font-bold text-gray-900 dark:text-white">{res.totalAmount.toLocaleString("fr")} FCFA</span>
+                  <span className="text-sm font-bold text-gray-900 dark:text-white">{res.totalAmount.toLocaleString("fr")} FC</span>
                   {res.discountCode && (
                     <p className="text-xs text-emerald-600 flex items-center gap-1 justify-end mt-0.5">
                       <Tag size={10} /> Promo: {res.discountCode}

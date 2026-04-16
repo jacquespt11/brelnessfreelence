@@ -149,7 +149,7 @@ export default function ShopClients() {
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-1 text-sm font-bold text-emerald-600 dark:text-emerald-400">
                       <TrendingUp size={14} />
-                      {client.totalGenerated?.toLocaleString("fr")} FCFA
+                      {client.totalGenerated?.toLocaleString("fr")} FC
                     </div>
                   </td>
                   <td className="px-6 py-4">
