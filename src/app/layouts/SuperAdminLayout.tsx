@@ -38,7 +38,7 @@ export default function SuperAdminLayout() {
 
       {/* Role badge */}
       {(!collapsed || mobile) && (
-        <div className="mx-4 mt-4 px-3 py-1.5 bg-blue-500/20 rounded-lg">
+        <div className="mx-4 mt-4 px-3 py-1.5 bg-white/10 rounded-lg">
           <p className="text-blue-200 text-xs font-medium">Super Administrateur</p>
           <p className="text-white text-xs truncate">{currentUser?.email}</p>
         </div>
@@ -98,8 +98,7 @@ export default function SuperAdminLayout() {
     <div className="flex h-screen bg-gray-50 dark:bg-gray-900 overflow-hidden">
       {/* Desktop Sidebar */}
       <aside
-        className={`hidden lg:flex flex-col transition-all duration-300 ${collapsed ? "w-16" : "w-64"}`}
-        style={{ background: "linear-gradient(180deg, #312e81 0%, #4f46e5 100%)" }}
+        className={`hidden lg:flex flex-col transition-all duration-300 bg-blue-600 ${collapsed ? "w-16" : "w-64"}`}
       >
         <SidebarContent />
         {/* Collapse toggle */}
@@ -116,7 +115,7 @@ export default function SuperAdminLayout() {
       {mobileOpen && (
         <div className="lg:hidden fixed inset-0 z-40 flex">
           <div className="fixed inset-0 bg-black/50" onClick={() => setMobileOpen(false)} />
-          <aside className="relative w-64 flex flex-col z-50" style={{ background: "linear-gradient(180deg, #312e81 0%, #4f46e5 100%)" }}>
+          <aside className="relative w-64 flex flex-col z-50 bg-blue-600">
             <button onClick={() => setMobileOpen(false)} className="absolute top-4 right-4 text-blue-200 hover:text-white">
               <X size={20} />
             </button>
